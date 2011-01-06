@@ -1,0 +1,97 @@
+<html>
+<head>
+  <title>Maze Algorithms</title>
+  <script src="../lib/mersenne.js" type="text/javascript"></script>
+  <script src="../lib/maze.js" type="text/javascript"></script>
+  <script src="../lib/backtracker.js" type="text/javascript"></script>
+  <script src="../lib/eller.js" type="text/javascript"></script>
+  <script src="../lib/kruskal.js" type="text/javascript"></script>
+  <script src="../lib/prim.js" type="text/javascript"></script>
+  <script src="../lib/division.js" type="text/javascript"></script>
+  <script src="../lib/widget.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    * { font-family: sans-serif; }
+
+    h1 {
+      font-size: 24px;
+      margin: 20px;
+      margin-bottom: 10px;
+    }
+
+    .row .maze {
+      padding: 0 0 20px 20px;
+      display: inline-block;
+    }
+
+    .maze .grid { width: 210px; height: 210px; }
+    .maze .grid .row { width: 210px; }
+
+    .small .grid .row div { width: 40px; height: 40px; }
+    .medium .grid .row div { width: 12px; height: 12px; }
+    .large .grid .row div { width: 5px; height: 5px; }
+
+    .maze .grid { border: 1px solid black; }
+
+    .maze .grid .row div { display: inline-block; border: 1px solid black; background: #ccc; }
+
+    .maze .grid div.in { background: #fff; }
+    .maze .grid div.f { background: #faa; }
+    .maze .grid div.e { border-right: none; padding-right: 1px; }
+    .maze .grid div.w { border-left: none; padding-left: 1px; }
+    .maze .grid div.n { border-top: none; padding-top: 1px; }
+    .maze .grid div.s { border-bottom: none; padding-bottom: 1px; }
+
+    .maze .grid.invert { border: 2px solid black; }
+    .maze .grid.invert .row div { background: #fff; border: none; padding: 1px; }
+    .maze .grid.invert div.e { border-right: 1px solid black; padding-right: 0; }
+    .maze .grid.invert div.w { border-left: 1px solid black; padding-left: 0; }
+    .maze .grid.invert div.n { border-top: 1px solid black; padding-top: 0; }
+    .maze .grid.invert div.s { border-bottom: 1px solid black; padding-bottom: 0; }
+
+    .maze .operations { clear: both; text-align: center; padding-top: 5px; }
+    .maze .operations a { padding: 0px 5px; color: #00f; }
+    .maze .operations a.disabled { color: #777; }
+  </style>
+</head>
+<body>
+  <h1>Recursive Backtracking</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("RecursiveBacktracker", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveBacktracker", 15, 15, { "class": "medium", id: "backtracker_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveBacktracker", 30, 30, { "class":"large", id: "backtracker_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Eller's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("Eller", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("Eller", 15, 15, { "class": "medium", id: "eller_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("Eller", 30, 30, { "class": "large", id: "eller_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Kruskal's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("Kruskal", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 15, 15, { "class": "medium", id: "kruskal_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 30, 30, { "class": "large", id: "kruskal_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Prim's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("Prim", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("Prim", 15, 15, { "class": "medium", id: "prim_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("Prim", 30, 30, { "class": "large", id: "prim_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Recursive Division</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 5, 5, { "class": "small", wallwise: true });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 15, 15, { "class": "medium", wallwise: true, id: "division_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 30, 30, { "class": "large", wallwise: true, id: "division_biggest", interval: 10 });</script>
+  </div>
+</body>
+</html>
