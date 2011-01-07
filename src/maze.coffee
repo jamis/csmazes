@@ -13,7 +13,7 @@ class Maze
     @grid = new Maze.Grid(@width, @height)
     @rand = options.rng || new MersenneTwister(options.seed)
 
-  randomBoolean: () -> @rand.nextBoolean()
+  randomBoolean: -> @rand.nextBoolean()
 
   randomElement: (list) -> list[@rand.nextInteger(list.length)]
 
@@ -29,9 +29,9 @@ class Maze
       i--
     list
 
-  randomDirections: () -> @randomizeList([1, 2, 4, 8])
+  randomDirections: -> @randomizeList [1, 2, 4, 8]
 
-  generate: () -> loop
+  generate: -> loop
     break unless @step()
 
   isEast: (x, y) -> @grid.isMarked(x, y, Maze.Direction.E)

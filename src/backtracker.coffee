@@ -15,25 +15,25 @@ class Maze.RecursiveBacktracker extends Maze
   DONE:  3
 
   constructor: (width, height, options) ->
-    super(width, height, options)
+    super
     @state = @START
     @stack = []
 
-  step: () ->
+  step: ->
     switch @state
       when @START then @startStep()
       when @RUN   then @runStep()
 
     @state != @DONE
 
-  startStep: () ->
+  startStep: ->
     [x, y] = [@rand.nextInteger(@width), @rand.nextInteger(@height)]
     @carve x, y, @IN | @STACK
     @callback this, x, y
-    @stack.push { x: x, y: y, dirs: @randomDirections() }
+    @stack.push x: x, y: y, dirs: @randomDirections()
     @state = @RUN
 
-  runStep: () ->
+  runStep: ->
     loop
       current = @stack[@stack.length - 1]
       dir = current.dirs.pop()
@@ -42,7 +42,7 @@ class Maze.RecursiveBacktracker extends Maze
       ny = current.y + Maze.Direction.dy[dir]
 
       if @isValid(nx, ny) && @isBlank(nx, ny)
-        @stack.push { x: nx, y: ny, dirs: @randomDirections() }
+        @stack.push x: nx, y: ny, dirs: @randomDirections()
         @carve current.x, current.y, dir
         @callback this, current.x, current.y
 

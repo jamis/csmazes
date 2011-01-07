@@ -8,25 +8,21 @@ http://github.com/jamis/csmazes
 
 class Maze.Kruskal extends Maze
   constructor: (width, height, options) ->
-    super(width, height, options)
+    super
 
     @sets = []
     @edges = []
 
-    y = 0
-    while y < @height
+    for y in [0...@height]
       @sets.push([])
-      x = 0
-      while x < @width
+      for x in [0...@width]
         @sets[y].push new Maze.Kruskal.Tree()
-        @edges.push {x: x, y: y, direction: Maze.Direction.N} if y > 0
-        @edges.push {x: x, y: y, direction: Maze.Direction.W} if x > 0
-        x += 1
-      y += 1
+        @edges.push x: x, y: y, direction: Maze.Direction.N if y > 0
+        @edges.push x: x, y: y, direction: Maze.Direction.W if x > 0
 
     @randomizeList(@edges)
 
-  step: () ->
+  step: ->
     while @edges.length > 0
       edge = @edges.pop()
 
@@ -50,7 +46,7 @@ class Maze.Kruskal extends Maze
     @edges.length > 0
 
 class Maze.Kruskal.Tree
-  constructor: () -> @up = null
-  root: () -> if @up then @up.root() else this
+  constructor: -> @up = null
+  root: -> if @up then @up.root() else this
   isConnectedTo: (tree) -> @root() == tree.root()
   connect: (tree) -> tree.root().up = this

@@ -65,7 +65,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
          </div>
          """
 
-  document.write(html)
+  document.write html
   element = document.getElementById(id)
 
   element.addClassName = (el, name) ->
@@ -83,14 +83,14 @@ Maze.createWidget = (algorithm, width, height, options) ->
           el.className += " " if el.className.length > 0
           el.className += className
 
-  element.mazeRun = () ->
+  element.mazeRun = ->
     if @mazeStepInterval?
       clearInterval @mazeStepInterval
       @mazeStepInterval = null
     else
-      @mazeStepInterval = setInterval((() => @mazeStep()), options.interval)
+      @mazeStepInterval = setInterval((=> @mazeStep()), options.interval)
 
-  element.mazeStep = () ->
+  element.mazeStep = ->
     unless @maze.step()
       if @mazeStepInterval?
         clearInterval @mazeStepInterval
@@ -99,7 +99,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
       @addClassName document.getElementById("#{@id}_step"), "disabled"
       @addClassName document.getElementById("#{@id}_run"), "disabled"
 
-  element.mazeReset = () ->
+  element.mazeReset = ->
     if @mazeStepInterval?
       clearInterval @mazeStepInterval
       @mazeStepInterval = null
@@ -108,19 +108,12 @@ Maze.createWidget = (algorithm, width, height, options) ->
     @maze.element = this
 
     grid = ""
-    y = 0
-
-    while y < @maze.height
+    for y in [0...@maze.height]
       row_id = "#{@id}_y#{y}"
       grid += "<div class='row' id='#{row_id}'>"
-      x = 0
-
-      while x < @maze.width
+      for x in [0...@maze.width]
         grid += "<div id='#{row_id}x#{x}'></div>"
-        x += 1
-
       grid += "</div>"
-      y += 1
 
     gridElement = document.getElementById("#{@id}_grid")
     gridElement.innerHTML = grid

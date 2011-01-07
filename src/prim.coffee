@@ -15,7 +15,7 @@ class Maze.Prim extends Maze
   DONE:     3
 
   constructor: (width, height, options) ->
-    super(width, height, options)
+    super
     @frontierCells = []
     @state = @START
 
@@ -25,7 +25,7 @@ class Maze.Prim extends Maze
 
   addFrontier: (x, y) ->
     if @isOutside(x, y)
-      @frontierCells.push {x: x, y: y}
+      @frontierCells.push x: x, y: y
       @carve x, y, @FRONTIER
       @callback this, x, y
 
@@ -42,18 +42,18 @@ class Maze.Prim extends Maze
   findNeighborsOf: (x, y) ->
     neighbors = []
 
-    neighbors.push(Maze.Direction.W) if @isInside(x-1, y)
-    neighbors.push(Maze.Direction.E) if @isInside(x+1, y)
-    neighbors.push(Maze.Direction.N) if @isInside(x, y-1)
-    neighbors.push(Maze.Direction.S) if @isInside(x, y+1)
+    neighbors.push Maze.Direction.W if @isInside(x-1, y)
+    neighbors.push Maze.Direction.E if @isInside(x+1, y)
+    neighbors.push Maze.Direction.N if @isInside(x, y-1)
+    neighbors.push Maze.Direction.S if @isInside(x, y+1)
 
     neighbors
 
-  startStep: () ->
+  startStep: ->
     @markCell @rand.nextInteger(@width), @rand.nextInteger(@height)
     @state = @EXPAND
 
-  expandStep: () ->
+  expandStep: ->
     cell = @removeRandomElement(@frontierCells)
     direction = @randomElement(@findNeighborsOf(cell.x, cell.y))
     nx = cell.x + Maze.Direction.dx[direction]
@@ -67,7 +67,7 @@ class Maze.Prim extends Maze
 
     @state = @DONE if @frontierCells.length == 0
 
-  step: () ->
+  step: ->
     switch @state
       when @START  then @startStep()
       when @EXPAND then @expandStep()

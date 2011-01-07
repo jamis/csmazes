@@ -51,7 +51,7 @@ class MersenneTwister
     else
       @seedWithArray seed
 
-  defaultSeed: () ->
+  defaultSeed: ->
     currentDate = new Date()
     currentDate.getMinutes() * 60000 + currentDate.getSeconds() * 1000 + currentDate.getMilliseconds()
 
@@ -63,7 +63,7 @@ class MersenneTwister
     while @mti < @N
       @mt[@mti] = @addition32(
         @multiplication32(1812433253, @unsigned32(@mt[@mti-1] ^ (@mt[@mti-1] >>> 30))),
-        @mti);
+        @mti)
       @mti[@mti] = @unsigned32(@mt[@mti] & 0xffffffff)
       @mti++
 
@@ -104,7 +104,7 @@ class MersenneTwister
   nextInteger: (upper) ->
     return 0 if (upper ? 1) < 1
 
-    mag01 = new Array(0, @MATRIX_A) 
+    mag01 = [0, @MATRIX_A]
 
     if @mti >= @N
       kk = 0
@@ -131,6 +131,6 @@ class MersenneTwister
 
     @unsigned32(y ^ (y >>> 18)) % (upper ? 0x100000000)
 
-  nextFloat: () -> @nextInteger() / 0xffffffff
+  nextFloat: -> @nextInteger() / 0xffffffff
 
-  nextBoolean: () -> @nextInteger() % 2 == 0
+  nextBoolean: -> @nextInteger() % 2 == 0

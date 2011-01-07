@@ -13,7 +13,7 @@ class Maze.Eller extends Maze
   VERTICAL:   1
 
   constructor: (width, height, options) ->
-    super(width, height, options)
+    super
 
     @state = new Maze.Eller.State(@width).populate()
     @row = 0
@@ -21,16 +21,15 @@ class Maze.Eller extends Maze
 
     @initializeRow()
 
-  initializeRow: () ->
+  initializeRow: ->
     @column = 0
     @mode = @HORIZONTAL
 
-  isFinal: () ->
-    @row+1 == @height
+  isFinal: -> @row+1 == @height
 
   isIn: (x, y) -> @isValid(x, y) && @isSet(x, y, @IN)
 
-  horizontalStep: () ->
+  horizontalStep: ->
     changed = false
 
     until changed || @column+1 >= @width
@@ -64,7 +63,7 @@ class Maze.Eller extends Maze
         @next_state = @state.next()
         @verticals = @computeVerticals()
 
-  computeVerticals: () ->
+  computeVerticals: ->
     verts = []
 
     @state.foreach (id, set) =>
@@ -74,7 +73,7 @@ class Maze.Eller extends Maze
 
     verts.sort (a, b) -> a - b
 
-  verticalStep: () ->
+  verticalStep: ->
     cell = @verticals.pop()
 
     @next_state.add cell, @state.setFor(cell)
@@ -90,7 +89,7 @@ class Maze.Eller extends Maze
       @row += 1
       @initializeRow()
 
-  step: () ->
+  step: ->
     switch @mode
       when @HORIZONTAL then @horizontalStep()
       when @VERTICAL   then @verticalStep()
@@ -103,10 +102,10 @@ class Maze.Eller.State
     @sets = {}
     @cells = []
 
-  next: () ->
+  next: ->
     new Maze.Eller.State(@width, @counter)
 
-  populate: () ->
+  populate: ->
     cell = 0
     while cell < @width
       unless @cells[cell]

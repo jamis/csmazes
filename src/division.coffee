@@ -11,8 +11,8 @@ class Maze.RecursiveDivision extends Maze
   VERTICAL:   2
 
   constructor: (width, height, options) ->
-    super(width, height, options)
-    @stack = [{ x: 0, y: 0, width: @width, height: @height }]
+    super
+    @stack = [ x: 0, y: 0, width: @width, height: @height ]
 
   chooseOrientation: (width, height) ->
     if width < height
@@ -24,7 +24,7 @@ class Maze.RecursiveDivision extends Maze
     else
       @VERTICAL
 
-  step: () ->
+  step: ->
     if @stack.length > 0
       region = @stack.pop()
       horizontal = @chooseOrientation(region.width, region.height) == @HORIZONTAL
@@ -65,13 +65,13 @@ class Maze.RecursiveDivision extends Maze
       width = if horizontal then region.width else wx - region.x + 1
       height = if horizontal then wy - region.y + 1 else region.height
       if width >= 2 && height >= 2
-        @stack.push { x: region.x, y: region.y, width: width, height: height }
+        @stack.push x: region.x, y: region.y, width: width, height: height
 
       x = if horizontal then region.x else wx + 1
       y = if horizontal then wy + 1 else region.y
       width = if horizontal then region.width else region.x + region.width - wx - 1
       height = if horizontal then region.y + region.height - wy - 1 else region.height
       if width >= 2 && height >= 2
-        @stack.push { x: x, y: y, width: width, height: height }
+        @stack.push x: x, y: y, width: width, height: height
 
     return @stack.length > 0
