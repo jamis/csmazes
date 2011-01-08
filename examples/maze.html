@@ -3,13 +3,15 @@
   <title>Maze Algorithms</title>
   <script src="../lib/mersenne.js" type="text/javascript"></script>
   <script src="../lib/maze.js" type="text/javascript"></script>
+  <script src="../lib/widget.js" type="text/javascript"></script>
+
+  <script src="../lib/aldous_broder.js" type="text/javascript"></script>
   <script src="../lib/backtracker.js" type="text/javascript"></script>
+  <script src="../lib/division.js" type="text/javascript"></script>
   <script src="../lib/eller.js" type="text/javascript"></script>
   <script src="../lib/kruskal.js" type="text/javascript"></script>
   <script src="../lib/prim.js" type="text/javascript"></script>
-  <script src="../lib/division.js" type="text/javascript"></script>
-  <script src="../lib/aldous_broder.js" type="text/javascript"></script>
-  <script src="../lib/widget.js" type="text/javascript"></script>
+  <script src="../lib/wilson.js" type="text/javascript"></script>
 
   <style type="text/css">
     * { font-family: sans-serif; }
@@ -38,6 +40,8 @@
 
     .maze .grid div.in { background: #fff; }
     .maze .grid div.f { background: #faa; }
+    .maze .grid div.cursor { background: #ffa; }
+
     .maze .grid div.e { border-right: none; padding-right: 1px; }
     .maze .grid div.w { border-left: none; padding-left: 1px; }
     .maze .grid div.n { border-top: none; padding-top: 1px; }
@@ -101,6 +105,14 @@
     <script type="text/javascript">Maze.createWidget("AldousBroder", 5, 5, { "class": "small" });</script>
     <script type="text/javascript">Maze.createWidget("AldousBroder", 15, 15, { "class": "medium", id: "abroder_bigger", interval: 25 });</script>
     <script type="text/javascript">Maze.createWidget("AldousBroder", 30, 30, { "class": "large", id: "abroder_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Wilson's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("Wilson", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("Wilson", 15, 15, { "class": "medium", id: "wilson_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("Wilson", 30, 30, { "class": "large", id: "wilson_biggest", interval: 10 });</script>
   </div>
 </body>
 </html>

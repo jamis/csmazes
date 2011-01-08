@@ -18,7 +18,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
   ACTIONS =
     AldousBroder: (maze, x, y, classes) ->
       if maze.isCurrent(x, y)
-        classes.push "f"
+        classes.push "cursor"
       else if not maze.isBlank(x, y)
         classes.push "in"
         updateWalls maze, x, y, classes
@@ -39,6 +39,16 @@ Maze.createWidget = (algorithm, width, height, options) ->
 
     RecursiveDivision: (maze, x, y, classes) ->
       updateWalls(maze, x, y, classes)
+
+    Wilson: (maze, x, y, classes) ->
+      if maze.isCurrent(x, y)
+        classes.push "cursor"
+        updateWalls maze, x, y, classes
+      else if not maze.isBlank(x, y)
+        classes.push "in"
+        updateWalls maze, x, y, classes
+      else if maze.isVisited(x, y)
+        classes.push "f"
 
     default: (maze, x, y, classes) ->
       unless maze.isBlank(x, y)

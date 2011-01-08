@@ -42,7 +42,7 @@ class Maze
   carve: (x, y, dir) -> @grid.mark(x, y, dir)
   uncarve: (x, y, dir) -> @grid.clear(x, y, dir)
   isSet: (x, y, dir) -> @grid.isMarked(x, y, dir)
-  isBlank: (x, y, dir) -> @grid.at(x, y, dir) == 0
+  isBlank: (x, y) -> @grid.at(x, y) == 0
 
 Maze.Direction =
   N: 1
