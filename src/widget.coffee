@@ -23,6 +23,13 @@ Maze.createWidget = (algorithm, width, height, options) ->
         classes.push "in"
         updateWalls maze, x, y, classes
 
+    HuntAndKill: (maze, x, y, classes) ->
+      if maze.isCurrent(x, y)
+        classes.push "cursor"
+      unless maze.isBlank(x, y)
+        classes.push "in"
+        updateWalls maze, x, y, classes
+        
     Prim: (maze, x, y, classes) ->
       if maze.isFrontier(x, y)
         classes.push "f"

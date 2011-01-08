@@ -9,6 +9,7 @@
   <script src="../lib/backtracker.js" type="text/javascript"></script>
   <script src="../lib/division.js" type="text/javascript"></script>
   <script src="../lib/eller.js" type="text/javascript"></script>
+  <script src="../lib/hunt_and_kill.js" type="text/javascript"></script>
   <script src="../lib/kruskal.js" type="text/javascript"></script>
   <script src="../lib/prim.js" type="text/javascript"></script>
   <script src="../lib/wilson.js" type="text/javascript"></script>
@@ -40,7 +41,7 @@
 
     .maze .grid div.in { background: #fff; }
     .maze .grid div.f { background: #faa; }
-    .maze .grid div.cursor { background: #ffa; }
+    .maze .grid div.cursor { background: #7f7; }
 
     .maze .grid div.e { border-right: none; padding-right: 1px; }
     .maze .grid div.w { border-left: none; padding-left: 1px; }
@@ -113,6 +114,14 @@
     <script type="text/javascript">Maze.createWidget("Wilson", 5, 5, { "class": "small" });</script>
     <script type="text/javascript">Maze.createWidget("Wilson", 15, 15, { "class": "medium", id: "wilson_bigger", interval: 25 });</script>
     <script type="text/javascript">Maze.createWidget("Wilson", 30, 30, { "class": "large", id: "wilson_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>"Hunt and Kill" Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("HuntAndKill", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("HuntAndKill", 15, 15, { "class": "medium", id: "huntkill_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("HuntAndKill", 30, 30, { "class": "large", id: "huntkill_biggest", interval: 10 });</script>
   </div>
 </body>
 </html>
