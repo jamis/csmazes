@@ -8,6 +8,7 @@
   <script src="../lib/kruskal.js" type="text/javascript"></script>
   <script src="../lib/prim.js" type="text/javascript"></script>
   <script src="../lib/division.js" type="text/javascript"></script>
+  <script src="../lib/aldous_broder.js" type="text/javascript"></script>
   <script src="../lib/widget.js" type="text/javascript"></script>
 
   <style type="text/css">
@@ -92,6 +93,14 @@
     <script type="text/javascript">Maze.createWidget("RecursiveDivision", 5, 5, { "class": "small", wallwise: true });</script>
     <script type="text/javascript">Maze.createWidget("RecursiveDivision", 15, 15, { "class": "medium", wallwise: true, id: "division_bigger", interval: 25 });</script>
     <script type="text/javascript">Maze.createWidget("RecursiveDivision", 30, 30, { "class": "large", wallwise: true, id: "division_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Aldous-Broder Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("AldousBroder", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("AldousBroder", 15, 15, { "class": "medium", id: "abroder_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("AldousBroder", 30, 30, { "class": "large", id: "abroder_biggest", interval: 10 });</script>
   </div>
 </body>
 </html>

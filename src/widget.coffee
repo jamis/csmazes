@@ -16,15 +16,17 @@ Maze.createWidget = (algorithm, width, height, options) ->
     classes.push "n" if maze.isNorth(x, y)
 
   ACTIONS =
+    AldousBroder: (maze, x, y, classes) ->
+      if maze.isCurrent(x, y)
+        classes.push "f"
+      else if not maze.isBlank(x, y)
+        classes.push "in"
+        updateWalls maze, x, y, classes
+
     Prim: (maze, x, y, classes) ->
       if maze.isFrontier(x, y)
         classes.push "f"
       else if maze.isInside(x, y)
-        classes.push "in"
-        updateWalls maze, x, y, classes
-
-    default: (maze, x, y, classes) ->
-      unless maze.isBlank(x, y)
         classes.push "in"
         updateWalls maze, x, y, classes
 
@@ -37,6 +39,11 @@ Maze.createWidget = (algorithm, width, height, options) ->
 
     RecursiveDivision: (maze, x, y, classes) ->
       updateWalls(maze, x, y, classes)
+
+    default: (maze, x, y, classes) ->
+      unless maze.isBlank(x, y)
+        classes.push "in"
+        updateWalls maze, x, y, classes
 
   defaultCallback = (maze, x, y) ->
     classes = []
