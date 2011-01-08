@@ -23,6 +23,14 @@ Maze.createWidget = (algorithm, width, height, options) ->
         classes.push "in"
         updateWalls maze, x, y, classes
 
+    GrowingTree: (maze, x, y, classes) ->
+      if not maze.isBlank(x, y)
+        if maze.inQueue(x, y)
+          classes.push "f"
+        else
+          classes.push "in"
+        updateWalls maze, x, y, classes
+
     HuntAndKill: (maze, x, y, classes) ->
       if maze.isCurrent(x, y)
         classes.push "cursor"
@@ -128,7 +136,11 @@ Maze.createWidget = (algorithm, width, height, options) ->
       clearInterval @mazeStepInterval
       @mazeStepInterval = null
 
-    @maze = new Maze[algorithm](width, height, options)
+    if options.input
+      value = document.getElementById(options.input).value
+      eval("this.__input = {" + value + "}")
+
+    @maze = new Maze[algorithm](width, height, callback: options.callback, seed: options.seed, rng: options.rng, input: @__input)
     @maze.element = this
 
     grid = ""
