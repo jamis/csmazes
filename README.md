@@ -59,6 +59,9 @@ runs, or how the grid is displayed. These properties are supported:
 * **class** : the HTML class attribute to add to the outermost generated
   div. This is in addition to any other classes that the widget itself
   assigns (e.g. "maze").
+* **input** : the id of an HTML form element that contains data to be passed
+  to the maze via its "input" parameter. The format is assumed to be an
+  object literal (without the outer curly braces).
 * **callback** : a function invoked whenever a cell is updated in the grid.
   The callback should accept three parameters: the maze object, and the x
   and y coordinates of the cell. If not specified, a default callback
@@ -106,7 +109,9 @@ maze is built. The following properties are understood (and have the same
 meaning as their counterparts in the widget helper):
 
 * **callback** : the default callback does nothing.
-* ** seed**
+* **input** : an object whose attributes may be used by the algorithm to
+  customize its behavior. Not all algorithms use this parameter.
+* **seed**
 * **rng**
 
 License
