@@ -44,6 +44,8 @@ class Maze
   isSet: (x, y, dir) -> @grid.isMarked(x, y, dir)
   isBlank: (x, y) -> @grid.at(x, y) == 0
 
+Maze.Algorithms = {}
+
 Maze.Direction =
   N: 1
   S: 2

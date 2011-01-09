@@ -8,12 +8,18 @@ task 'build', 'Build lib/ from src/', ->
   coffee.stderr.on 'data', (data) -> print data.toString()
 
 task 'concat', 'Merge all generated Javascript files into a single file, maze-all.js', ->
-  priorities = "mersenne.js": 1, "maze.js": 2, "widget.js": 3
-  sources = fs.readdirSync("lib").sort((a, b) -> (priorities[a] || 4) - (priorities[b] || 4))
+  priorities = "lib/mersenne.js": 1, "lib/maze.js": 2, "lib/widget.js": 3
+
+  sources = ("lib/#{entry}" for entry in fs.readdirSync("lib"))
+  algorithms = ("lib/algorithms/#{entry}" for entry in fs.readdirSync("lib/algorithms"))
+  sources = sources.concat(algorithms)
+  sources = sources.sort (a,b) -> (priorities[a] || 4) - (priorities[b] || 4)
+
   output = fs.openSync("maze-all.js", "w")
   for source in sources
-    fs.writeSync(output, "// ------ #{source} -------\n")
-    fs.writeSync(output, fs.readFileSync("lib/#{source}") + "\n")
+    if source.match(/\.js$/)
+      fs.writeSync(output, "// ------ #{source} -------\n")
+      fs.writeSync(output, fs.readFileSync(source) + "\n")
   fs.closeSync(output)
 
 task 'minify', 'Concat and minify all generated Javascript files using YUICompressor', ->

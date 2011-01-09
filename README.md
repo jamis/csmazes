@@ -92,7 +92,7 @@ If you're determined to do things the hard way, you can always instantiate
 the mazes yourself, setting up the callbacks and rendering things manually.
 To instantiate a maze:
 
-    var maze = new Maze.Prim(10, 10)
+    var maze = new Maze.Algorithms.Prim(10, 10)
 
 This would create a blank 10x10 grid that will generate a maze using Prim's
 algorithm. Mazes are generated either step-wise:

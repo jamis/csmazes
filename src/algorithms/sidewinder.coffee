@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Sidewinder extends Maze
+class Maze.Algorithms.Sidewinder extends Maze
   IN: 0x10
 
   constructor: (width, height, options) ->

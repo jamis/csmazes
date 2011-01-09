@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.RecursiveBacktracker extends Maze
+class Maze.Algorithms.RecursiveBacktracker extends Maze
   IN:    0x10
   STACK: 0x20
 

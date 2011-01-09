@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.AldousBroder extends Maze
+class Maze.Algorithms.AldousBroder extends Maze
   IN: 0x10
 
   constructor: (width, height, options) ->

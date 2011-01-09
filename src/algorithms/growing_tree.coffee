@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.GrowingTree extends Maze
+class Maze.Algorithms.GrowingTree extends Maze
   QUEUE: 0x10
 
   constructor: (width, height, options) ->

@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Kruskal extends Maze
+class Maze.Algorithms.Kruskal extends Maze
   constructor: (width, height, options) ->
     super
 
@@ -16,7 +16,7 @@ class Maze.Kruskal extends Maze
     for y in [0...@height]
       @sets.push([])
       for x in [0...@width]
-        @sets[y].push new Maze.Kruskal.Tree()
+        @sets[y].push new Maze.Algorithms.Kruskal.Tree()
         @edges.push x: x, y: y, direction: Maze.Direction.N if y > 0
         @edges.push x: x, y: y, direction: Maze.Direction.W if x > 0
 
@@ -45,7 +45,7 @@ class Maze.Kruskal extends Maze
 
     @edges.length > 0
 
-class Maze.Kruskal.Tree
+class Maze.Algorithms.Kruskal.Tree
   constructor: -> @up = null
   root: -> if @up then @up.root() else this
   isConnectedTo: (tree) -> @root() == tree.root()

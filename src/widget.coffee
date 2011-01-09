@@ -140,7 +140,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
       value = document.getElementById(options.input).value
       eval("this.__input = {" + value + "}")
 
-    @maze = new Maze[algorithm](width, height, callback: options.callback, seed: options.seed, rng: options.rng, input: @__input)
+    @maze = new Maze.Algorithms[algorithm](width, height, callback: options.callback, seed: options.seed, rng: options.rng, input: @__input)
     @maze.element = this
 
     grid = ""

@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Eller extends Maze
+class Maze.Algorithms.Eller extends Maze
   IN:         0x20
 
   HORIZONTAL: 0
@@ -15,7 +15,7 @@ class Maze.Eller extends Maze
   constructor: (width, height, options) ->
     super
 
-    @state = new Maze.Eller.State(@width).populate()
+    @state = new Maze.Algorithms.Eller.State(@width).populate()
     @row = 0
     @pending = true
 
@@ -96,14 +96,14 @@ class Maze.Eller extends Maze
 
     @pending
 
-class Maze.Eller.State
+class Maze.Algorithms.Eller.State
   constructor: (@width, @counter) ->
     @counter ?= 0
     @sets = {}
     @cells = []
 
   next: ->
-    new Maze.Eller.State(@width, @counter)
+    new Maze.Algorithms.Eller.State(@width, @counter)
 
   populate: ->
     cell = 0

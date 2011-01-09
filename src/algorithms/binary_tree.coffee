@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.BinaryTree extends Maze
+class Maze.Algorithms.BinaryTree extends Maze
   IN: 0x10
 
   constructor: (width, height, options) ->

@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.RecursiveDivision extends Maze
+class Maze.Algorithms.RecursiveDivision extends Maze
   HORIZONTAL: 1
   VERTICAL:   2
 
