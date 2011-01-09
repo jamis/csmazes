@@ -31,9 +31,24 @@ task 'minify', 'Concat and minify all generated Javascript files using YUICompre
     yui.on 'exit', (code) -> fs.close(fd)
 
 task 'clean', 'Clean up generated artifacts', ->
-  for js in fs.readdirSync("lib")
-    print "cleaning `lib/#{js}'\n"
-    fs.unlink "lib/#{js}"
+  try
+    for js in fs.readdirSync("lib/algorithms")
+      print "cleaning `lib/algorithms/#{js}'\n"
+      fs.unlink "lib/algorithms/#{js}"
+
+    fs.rmdir "lib/algorithms"
+  catch error
+    # ignore
+
+  try
+    for js in fs.readdirSync("lib")
+      print "cleaning `lib/#{js}'\n"
+      fs.unlink "lib/#{js}"
+
+    fs.rmdir "lib"
+  catch error
+    # ignore
+
   for js in fs.readdirSync(".")
     if js == "maze-all.js" || js == "maze-minified.js"
       print "cleaning `#{js}'\n"
