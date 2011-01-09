@@ -17,8 +17,8 @@ class Maze.Algorithms.Kruskal extends Maze
       @sets.push([])
       for x in [0...@width]
         @sets[y].push new Maze.Algorithms.Kruskal.Tree()
-        @edges.push x: x, y: y, direction: Maze.Direction.N if y > 0
-        @edges.push x: x, y: y, direction: Maze.Direction.W if x > 0
+        @edges.push(x: x, y: y, direction: Maze.Direction.N) if y > 0
+        @edges.push(x: x, y: y, direction: Maze.Direction.W) if x > 0
 
     @randomizeList(@edges)
 
