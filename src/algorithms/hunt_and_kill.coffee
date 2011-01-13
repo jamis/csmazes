@@ -13,9 +13,13 @@ class Maze.Algorithms.HuntAndKill extends Maze
     super
     @state = 0
 
-  isCurrent: (x, y) -> @x == x && @y == y
+  isCurrent: (x, y) -> (@x ? x) == x && @y == y
   isWalking: -> @state == 1
   isHunting: -> @state == 2
+
+  callbackRow: (y) ->
+    for x in [0...@width]
+      @callback this, x, y
 
   startStep: ->
     @x = @rand.nextInteger(@width)
@@ -40,47 +44,49 @@ class Maze.Algorithms.HuntAndKill extends Maze
     [x, y] = [@x, @y]
     delete @x
     delete @y
-    @callback this, x, y
-    @x = 0
+    @callback this, x, y # remove highlight from current cell
     @y = 0
-    @callback this, 0, 0
+    @callbackRow 0 # highlight the first row
     @state = 2
 
   huntStep: ->
-    if @isBlank(@x, @y)
-      neighbors = []
-      neighbors.push Maze.Direction.N if @y > 0 && !@isBlank(@x, @y-1)
-      neighbors.push Maze.Direction.W if @x > 0 && !@isBlank(@x-1, @y)
-      neighbors.push Maze.Direction.S if @y+1 < @height && !@isBlank(@x, @y+1)
-      neighbors.push Maze.Direction.E if @x+1 < @width && !@isBlank(@x+1, @y)
+    for x in [0...@width]
+      if @isBlank(x, @y)
+        neighbors = []
+        neighbors.push Maze.Direction.N if @y > 0 && !@isBlank(x, @y-1)
+        neighbors.push Maze.Direction.W if x > 0 && !@isBlank(x-1, @y)
+        neighbors.push Maze.Direction.S if @y+1 < @height && !@isBlank(x, @y+1)
+        neighbors.push Maze.Direction.E if x+1 < @width && !@isBlank(x+1, @y)
 
-      direction = @randomElement(neighbors)
-      if direction
-        nx = @x + Maze.Direction.dx[direction]
-        ny = @y + Maze.Direction.dy[direction]
+        direction = @randomElement(neighbors)
+        if direction
+          @x = x
 
-        @carve @x, @y, direction
-        @carve nx, ny, Maze.Direction.opposite[direction]
+          nx = @x + Maze.Direction.dx[direction]
+          ny = @y + Maze.Direction.dy[direction]
 
-        @state = 1
-        @callback this, nx, ny
-        @callback this, @x, @y
-        return
+          @carve @x, @y, direction
+          @carve nx, ny, Maze.Direction.opposite[direction]
 
-    [x, y, @x, @y] = [@x, @y, @x+1, @y]
+          @state = 1
 
-    if @x >= @width
-      @x = 0
-      @y++
+          # update passages for neighbor
+          @callback this, nx, ny
+
+          # clear highlight in row (because we set @x) and update passages at @x, @y
+          @callbackRow @y
+
+          return
+
+    @y++
+    @callbackRow @y-1 # clear highlight for prior row
 
     if @y >= @height
       @state = 3
       delete @x
       delete @y
     else
-      @callback this, @x, @y
-
-    @callback this, x, y
+      @callbackRow @y # highlight next row
 
   step: ->
     switch @state
