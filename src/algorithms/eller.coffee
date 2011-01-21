@@ -6,16 +6,16 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.Eller extends Maze
+class Maze.Algorithms.Eller extends Maze.Algorithm
   IN:         0x20
 
   HORIZONTAL: 0
   VERTICAL:   1
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
 
-    @state = new Maze.Algorithms.Eller.State(@width).populate()
+    @state = new Maze.Algorithms.Eller.State(@maze.width).populate()
     @row = 0
     @pending = true
 
@@ -25,36 +25,36 @@ class Maze.Algorithms.Eller extends Maze
     @column = 0
     @mode = @HORIZONTAL
 
-  isFinal: -> @row+1 == @height
+  isFinal: -> @row+1 == @maze.height
 
-  isIn: (x, y) -> @isValid(x, y) && @isSet(x, y, @IN)
+  isIn: (x, y) -> @maze.isValid(x, y) && @maze.isSet(x, y, @IN)
 
   horizontalStep: ->
     changed = false
 
-    until changed || @column+1 >= @width
+    until changed || @column+1 >= @maze.width
       changed = true
 
       if !@state.isSame(@column, @column+1) && (@isFinal() || @rand.nextBoolean())
         @state.merge @column, @column+1
 
-        @carve @column, @row, Maze.Direction.E
-        @callback this, @column, @row
+        @maze.carve @column, @row, Maze.Direction.E
+        @callback @maze, @column, @row
 
-        @carve @column+1, @row, Maze.Direction.W
-        @callback this, @column+1, @row
-      else if @isBlank(@column, @row)
-        @carve @column, @row, @IN
-        @callback this, @column, @row
+        @maze.carve @column+1, @row, Maze.Direction.W
+        @callback @maze, @column+1, @row
+      else if @maze.isBlank(@column, @row)
+        @maze.carve @column, @row, @IN
+        @callback @maze, @column, @row
       else
         changed = false
 
       @column += 1
 
-    if @column+1 >= @width
-      if @isBlank(@column, @row)
-        @carve @column, @row, @IN
-        @callback this, @column, @row
+    if @column+1 >= @maze.width
+      if @maze.isBlank(@column, @row)
+        @maze.carve @column, @row, @IN
+        @callback @maze, @column, @row
 
       if @isFinal()
         @pending = false
@@ -68,7 +68,7 @@ class Maze.Algorithms.Eller extends Maze
 
     @state.foreach (id, set) =>
       countFromThisSet = 1 + @rand.nextInteger(set.length-1)
-      cellsToConnect = @randomizeList(set).slice(0, countFromThisSet)
+      cellsToConnect = @rand.randomizeList(set).slice(0, countFromThisSet)
       verts = verts.concat(cellsToConnect)
 
     verts.sort (a, b) -> a - b
@@ -78,11 +78,11 @@ class Maze.Algorithms.Eller extends Maze
 
     @next_state.add cell, @state.setFor(cell)
 
-    @carve cell, @row, Maze.Direction.S
-    @callback this, cell, @row
+    @maze.carve cell, @row, Maze.Direction.S
+    @callback @maze, cell, @row
 
-    @carve cell, @row+1, Maze.Direction.N
-    @callback this, cell, @row+1
+    @maze.carve cell, @row+1, Maze.Direction.N
+    @callback @maze, cell, @row+1
 
     if @verticals.length == 0
       @state = @next_state.populate()

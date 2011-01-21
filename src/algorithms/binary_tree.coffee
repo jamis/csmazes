@@ -6,38 +6,38 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.BinaryTree extends Maze
+class Maze.Algorithms.BinaryTree extends Maze.Algorithm
   IN: 0x10
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
     @x = 0
     @y = 0
 
   step: ->
-    return false if @y >= @height
+    return false if @y >= @maze.height
 
     dirs = []
     dirs.push Maze.Direction.N if @y > 0
     dirs.push Maze.Direction.W if @x > 0
 
-    direction = @randomElement(dirs)
+    direction = @rand.randomElement(dirs)
     if direction
       nx = @x + Maze.Direction.dx[direction]
       ny = @y + Maze.Direction.dy[direction]
 
-      @carve @x, @y, direction
-      @carve nx, ny, Maze.Direction.opposite[direction]
+      @maze.carve @x, @y, direction
+      @maze.carve nx, ny, Maze.Direction.opposite[direction]
 
-      @callback this, nx, ny
+      @callback @maze, nx, ny
     else
-      @carve @x, @y, @IN
+      @maze.carve @x, @y, @IN
 
-    @callback this, @x, @y
+    @callback @maze, @x, @y
 
     @x++
-    if @x >= @width
+    if @x >= @maze.width
       @x = 0
       @y++
 
-    return @y < @height
+    return @y < @maze.height

@@ -6,10 +6,10 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.HuntAndKill extends Maze
+class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
   IN: 0x10
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
     @state = 0
 
@@ -18,60 +18,60 @@ class Maze.Algorithms.HuntAndKill extends Maze
   isHunting: -> @state == 2
 
   callbackRow: (y) ->
-    for x in [0...@width]
-      @callback this, x, y
+    for x in [0...@maze.width]
+      @callback @maze, x, y
 
   startStep: ->
-    @x = @rand.nextInteger(@width)
-    @y = @rand.nextInteger(@height)
-    @carve @x, @y, @IN
-    @callback this, @x, @y
+    @x = @rand.nextInteger(@maze.width)
+    @y = @rand.nextInteger(@maze.height)
+    @maze.carve @x, @y, @IN
+    @callback @maze, @x, @y
     @state = 1
 
   walkStep: ->
-    for direction in @randomDirections()
+    for direction in @rand.randomDirections()
       nx = @x + Maze.Direction.dx[direction]
       ny = @y + Maze.Direction.dy[direction]
 
-      if @isValid(nx, ny) && @isBlank(nx, ny)
+      if @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
         [x, y, @x, @y] = [@x, @y, nx, ny]
-        @carve x, y, direction
-        @carve nx, ny, Maze.Direction.opposite[direction]
-        @callback this, x, y
-        @callback this, nx, ny
+        @maze.carve x, y, direction
+        @maze.carve nx, ny, Maze.Direction.opposite[direction]
+        @callback @maze, x, y
+        @callback @maze, nx, ny
         return
 
     [x, y] = [@x, @y]
     delete @x
     delete @y
-    @callback this, x, y # remove highlight from current cell
+    @callback @maze, x, y # remove highlight from current cell
     @y = 0
     @callbackRow 0 # highlight the first row
     @state = 2
 
   huntStep: ->
-    for x in [0...@width]
-      if @isBlank(x, @y)
+    for x in [0...@maze.width]
+      if @maze.isBlank(x, @y)
         neighbors = []
-        neighbors.push Maze.Direction.N if @y > 0 && !@isBlank(x, @y-1)
-        neighbors.push Maze.Direction.W if x > 0 && !@isBlank(x-1, @y)
-        neighbors.push Maze.Direction.S if @y+1 < @height && !@isBlank(x, @y+1)
-        neighbors.push Maze.Direction.E if x+1 < @width && !@isBlank(x+1, @y)
+        neighbors.push Maze.Direction.N if @y > 0 && !@maze.isBlank(x, @y-1)
+        neighbors.push Maze.Direction.W if x > 0 && !@maze.isBlank(x-1, @y)
+        neighbors.push Maze.Direction.S if @y+1 < @maze.height && !@maze.isBlank(x, @y+1)
+        neighbors.push Maze.Direction.E if x+1 < @maze.width && !@maze.isBlank(x+1, @y)
 
-        direction = @randomElement(neighbors)
+        direction = @rand.randomElement(neighbors)
         if direction
           @x = x
 
           nx = @x + Maze.Direction.dx[direction]
           ny = @y + Maze.Direction.dy[direction]
 
-          @carve @x, @y, direction
-          @carve nx, ny, Maze.Direction.opposite[direction]
+          @maze.carve @x, @y, direction
+          @maze.carve nx, ny, Maze.Direction.opposite[direction]
 
           @state = 1
 
           # update passages for neighbor
-          @callback this, nx, ny
+          @callback @maze, nx, ny
 
           # clear highlight in row (because we set @x) and update passages at @x, @y
           @callbackRow @y
@@ -81,7 +81,7 @@ class Maze.Algorithms.HuntAndKill extends Maze
     @y++
     @callbackRow @y-1 # clear highlight for prior row
 
-    if @y >= @height
+    if @y >= @maze.height
       @state = 3
       delete @x
       delete @y

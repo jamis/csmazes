@@ -17,7 +17,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
 
   ACTIONS =
     AldousBroder: (maze, x, y, classes) ->
-      if maze.isCurrent(x, y)
+      if maze.algorithm.isCurrent(x, y)
         classes.push "cursor"
       else if not maze.isBlank(x, y)
         classes.push "in"
@@ -25,28 +25,28 @@ Maze.createWidget = (algorithm, width, height, options) ->
 
     GrowingTree: (maze, x, y, classes) ->
       if not maze.isBlank(x, y)
-        if maze.inQueue(x, y)
+        if maze.algorithm.inQueue(x, y)
           classes.push "f"
         else
           classes.push "in"
         updateWalls maze, x, y, classes
 
     HuntAndKill: (maze, x, y, classes) ->
-      if maze.isCurrent(x, y)
+      if maze.algorithm.isCurrent(x, y)
         classes.push "cursor"
       unless maze.isBlank(x, y)
         classes.push "in"
         updateWalls maze, x, y, classes
         
     Prim: (maze, x, y, classes) ->
-      if maze.isFrontier(x, y)
+      if maze.algorithm.isFrontier(x, y)
         classes.push "f"
-      else if maze.isInside(x, y)
+      else if maze.algorithm.isInside(x, y)
         classes.push "in"
         updateWalls maze, x, y, classes
 
     RecursiveBacktracker: (maze, x, y, classes) ->
-      if maze.isStack(x, y)
+      if maze.algorithm.isStack(x, y)
         classes.push "f"
       else
         classes.push "in"
@@ -56,13 +56,13 @@ Maze.createWidget = (algorithm, width, height, options) ->
       updateWalls(maze, x, y, classes)
 
     Wilson: (maze, x, y, classes) ->
-      if maze.isCurrent(x, y)
+      if maze.algorithm.isCurrent(x, y)
         classes.push "cursor"
         updateWalls maze, x, y, classes
       else if not maze.isBlank(x, y)
         classes.push "in"
         updateWalls maze, x, y, classes
-      else if maze.isVisited(x, y)
+      else if maze.algorithm.isVisited(x, y)
         classes.push "f"
 
     default: (maze, x, y, classes) ->
@@ -140,7 +140,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
       value = document.getElementById(options.input).value
       eval("this.__input = {" + value + "}")
 
-    @maze = new Maze.Algorithms[algorithm](width, height, callback: options.callback, seed: options.seed, rng: options.rng, input: @__input)
+    @maze = new Maze(width, height, Maze.Algorithms[algorithm], callback: options.callback, seed: options.seed, rng: options.rng, input: @__input)
     @maze.element = this
 
     grid = ""

@@ -6,13 +6,13 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.Wilson extends Maze
+class Maze.Algorithms.Wilson extends Maze.Algorithm
   IN: 0x10
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
     @state = 0
-    @remaining = @width * @height
+    @remaining = @maze.width * @maze.height
     @visits = {}
 
   isCurrent: (x, y) -> @x == x && @y == y
@@ -22,10 +22,10 @@ class Maze.Algorithms.Wilson extends Maze
   exitTaken: (x, y) -> @visits["#{x}:#{y}"]
 
   startStep: ->
-    x = @rand.nextInteger(@width)
-    y = @rand.nextInteger(@height)
-    @carve x, y, @IN
-    @callback this, x, y
+    x = @rand.nextInteger(@maze.width)
+    y = @rand.nextInteger(@maze.height)
+    @maze.carve x, y, @IN
+    @callback @maze, x, y
     @remaining--
     @state = 1
 
@@ -33,27 +33,27 @@ class Maze.Algorithms.Wilson extends Maze
     @visits = {}
 
     loop
-      @x = @rand.nextInteger(@width)
-      @y = @rand.nextInteger(@height)
-      if @isBlank(@x, @y)
+      @x = @rand.nextInteger(@maze.width)
+      @y = @rand.nextInteger(@maze.height)
+      if @maze.isBlank(@x, @y)
         @state = 2
         @start = x: @x, y: @y
         @addVisit @x, @y
-        @callback this, @x, @y
+        @callback @maze, @x, @y
         break
 
   walkStep: ->
-    for direction in @randomDirections()
+    for direction in @rand.randomDirections()
       nx = @x + Maze.Direction.dx[direction]
       ny = @y + Maze.Direction.dy[direction]
 
-      if @isValid(nx, ny)
+      if @maze.isValid(nx, ny)
         [x, y, @x, @y] = [@x, @y, nx, ny]
         @addVisit x, y, direction
-        @callback this, x, y
-        @callback this, nx, ny
+        @callback @maze, x, y
+        @callback @maze, nx, ny
 
-        unless @isBlank(nx, ny)
+        unless @maze.isBlank(nx, ny)
           @x = @start.x
           @y = @start.y
           @state = 3
@@ -64,7 +64,7 @@ class Maze.Algorithms.Wilson extends Maze
     for key, dir of @visits
       [x, y] = key.split(":")
       delete @visits[key]
-      @callback this, x, y
+      @callback @maze, x, y
 
   runStep: ->
     if @remaining > 0
@@ -72,12 +72,12 @@ class Maze.Algorithms.Wilson extends Maze
       nx = @x + Maze.Direction.dx[dir]
       ny = @y + Maze.Direction.dy[dir]
 
-      unless @isBlank(nx, ny)
+      unless @maze.isBlank(nx, ny)
         @resetVisits()
         @state = 1
 
-      @carve @x, @y, dir
-      @carve nx, ny, Maze.Direction.opposite[dir]
+      @maze.carve @x, @y, dir
+      @maze.carve nx, ny, Maze.Direction.opposite[dir]
 
       [x, y, @x, @y] = [@x, @y, nx, ny]
 
@@ -85,8 +85,8 @@ class Maze.Algorithms.Wilson extends Maze
         delete @x
         delete @y
 
-      @callback this, x, y
-      @callback this, nx, ny
+      @callback @maze, x, y
+      @callback @maze, nx, ny
 
       @remaining--
 

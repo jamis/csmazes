@@ -6,44 +6,44 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.AldousBroder extends Maze
+class Maze.Algorithms.AldousBroder extends Maze.Algorithm
   IN: 0x10
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
     @state = 0
-    @remaining = @width * @height
+    @remaining = @maze.width * @maze.height
 
   isCurrent: (x, y) -> @x == x && @y == y
 
   startStep: ->
-    @x = @rand.nextInteger(@width)
-    @y = @rand.nextInteger(@height)
-    @carve @x, @y, @IN
-    @callback this, @x, @y
+    @x = @rand.nextInteger(@maze.width)
+    @y = @rand.nextInteger(@maze.height)
+    @maze.carve @x, @y, @IN
+    @callback @maze, @x, @y
     @remaining--
     @state = 1
 
   runStep: ->
     if @remaining > 0
-      for dir in @randomDirections()
+      for dir in @rand.randomDirections()
         nx = @x + Maze.Direction.dx[dir]
         ny = @y + Maze.Direction.dy[dir]
 
-        if @isValid(nx, ny)
+        if @maze.isValid(nx, ny)
           [x, y, @x, @y] = [@x, @y, nx, ny]
 
-          if @isBlank(nx, ny)
-            @carve x, y, dir
-            @carve @x, @y, Maze.Direction.opposite[dir]
+          if @maze.isBlank(nx, ny)
+            @maze.carve x, y, dir
+            @maze.carve @x, @y, Maze.Direction.opposite[dir]
             @remaining--
 
             if @remaining == 0
               delete @x
               delete @y
 
-          @callback this, x, y
-          @callback this, nx, ny
+          @callback @maze, x, y
+          @callback @maze, nx, ny
 
           break
 

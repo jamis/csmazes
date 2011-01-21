@@ -7,32 +7,31 @@ http://github.com/jamis/csmazes
 ###
 
 class Maze
-  constructor: (@width, @height, options) ->
+  constructor: (@width, @height, algorithm, options) ->
     options ?= {}
-    @callback = options.callback || (maze, x, y) ->
     @grid = new Maze.Grid(@width, @height)
     @rand = options.rng || new MersenneTwister(options.seed)
 
-  randomBoolean: -> @rand.nextBoolean()
+    unless @rand.randomElement?
+      @rand.randomElement = (list) -> list[@nextInteger(list.length)]
+      @rand.removeRandomElement = (list) ->
+        results = list.splice(@nextInteger(list.length), 1)
+        if results then results[0]
+      @rand.randomizeList = (list) ->
+        i = list.length - 1
+        while i > 0
+          j = @nextInteger(i+1)
+          [list[i], list[j]] = [list[j], list[i]]
+          i--
+        list
+      @rand.randomDirections = -> @randomizeList Maze.Direction.List.slice(0)
 
-  randomElement: (list) -> list[@rand.nextInteger(list.length)]
-
-  removeRandomElement: (list) ->
-    results = list.splice(@rand.nextInteger(list.length), 1)
-    if results then results[0]
-
-  randomizeList: (list) ->
-    i = list.length - 1
-    while i > 0
-      j = @rand.nextInteger(i+1)
-      [list[i], list[j]] = [list[j], list[i]]
-      i--
-    list
-
-  randomDirections: -> @randomizeList [1, 2, 4, 8]
+    @algorithm = new algorithm(this, options)
 
   generate: -> loop
     break unless @step()
+
+  step: -> @algorithm.step()
 
   isEast: (x, y) -> @grid.isMarked(x, y, Maze.Direction.E)
   isWest: (x, y) -> @grid.isMarked(x, y, Maze.Direction.W)
@@ -46,11 +45,18 @@ class Maze
 
 Maze.Algorithms = {}
 
+class Maze.Algorithm
+  constructor: (@maze, options) ->
+    options ?= {}
+    @callback = options.callback ? (maze, x, y) ->
+    @rand = @maze.rand
+
 Maze.Direction =
   N: 1
   S: 2
   E: 4
   W: 8
+  List: [1, 2, 4, 8]
   dx: { 1: 0, 2: 0, 4: 1, 8: -1 }
   dy: { 1: -1, 2: 1, 4: 0, 8: 0 }
   opposite: { 1: 2, 2: 1, 4: 8, 8: 4 }

@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.Prim extends Maze
+class Maze.Algorithms.Prim extends Maze.Algorithm
   IN:       0x10
   FRONTIER: 0x20
 
@@ -14,25 +14,25 @@ class Maze.Algorithms.Prim extends Maze
   EXPAND:   2
   DONE:     3
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
     @frontierCells = []
     @state = @START
 
-  isOutside: (x, y) -> @isValid(x, y) && @isBlank(x, y)
-  isInside: (x, y) -> @isValid(x, y) && @isSet(x, y, @IN)
-  isFrontier: (x, y) -> @isValid(x, y) && @isSet(x, y, @FRONTIER)
+  isOutside: (x, y) -> @maze.isValid(x, y) && @maze.isBlank(x, y)
+  isInside: (x, y) -> @maze.isValid(x, y) && @maze.isSet(x, y, @IN)
+  isFrontier: (x, y) -> @maze.isValid(x, y) && @maze.isSet(x, y, @FRONTIER)
 
   addFrontier: (x, y) ->
     if @isOutside(x, y)
       @frontierCells.push x: x, y: y
-      @carve x, y, @FRONTIER
-      @callback this, x, y
+      @maze.carve x, y, @FRONTIER
+      @callback @maze, x, y
 
   markCell: (x, y) ->
-    @carve x, y, @IN
-    @uncarve x, y, @FRONTIER
-    @callback this, x, y
+    @maze.carve x, y, @IN
+    @maze.uncarve x, y, @FRONTIER
+    @callback @maze, x, y
 
     @addFrontier x-1, y
     @addFrontier x+1, y
@@ -50,19 +50,19 @@ class Maze.Algorithms.Prim extends Maze
     neighbors
 
   startStep: ->
-    @markCell @rand.nextInteger(@width), @rand.nextInteger(@height)
+    @markCell @rand.nextInteger(@maze.width), @rand.nextInteger(@maze.height)
     @state = @EXPAND
 
   expandStep: ->
-    cell = @removeRandomElement(@frontierCells)
-    direction = @randomElement(@findNeighborsOf(cell.x, cell.y))
+    cell = @rand.removeRandomElement(@frontierCells)
+    direction = @rand.randomElement(@findNeighborsOf(cell.x, cell.y))
     nx = cell.x + Maze.Direction.dx[direction]
     ny = cell.y + Maze.Direction.dy[direction]
 
-    @carve nx, ny, Maze.Direction.opposite[direction]
-    @callback this, nx, ny
+    @maze.carve nx, ny, Maze.Direction.opposite[direction]
+    @callback @maze, nx, ny
 
-    @carve cell.x, cell.y, direction
+    @maze.carve cell.x, cell.y, direction
     @markCell cell.x, cell.y
 
     @state = @DONE if @frontierCells.length == 0

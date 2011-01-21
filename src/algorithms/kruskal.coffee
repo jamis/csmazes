@@ -6,21 +6,21 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.Kruskal extends Maze
-  constructor: (width, height, options) ->
+class Maze.Algorithms.Kruskal extends Maze.Algorithm
+  constructor: (maze, options) ->
     super
 
     @sets = []
     @edges = []
 
-    for y in [0...@height]
+    for y in [0...@maze.height]
       @sets.push([])
-      for x in [0...@width]
+      for x in [0...@maze.width]
         @sets[y].push new Maze.Algorithms.Kruskal.Tree()
         @edges.push(x: x, y: y, direction: Maze.Direction.N) if y > 0
         @edges.push(x: x, y: y, direction: Maze.Direction.W) if x > 0
 
-    @randomizeList(@edges)
+    @rand.randomizeList(@edges)
 
   step: ->
     while @edges.length > 0
@@ -35,11 +35,11 @@ class Maze.Algorithms.Kruskal extends Maze
       unless set1.isConnectedTo set2
         set1.connect set2
 
-        @carve edge.x, edge.y, edge.direction
-        @callback this, edge.x, edge.y
+        @maze.carve edge.x, edge.y, edge.direction
+        @callback @maze, edge.x, edge.y
 
-        @carve nx, ny, Maze.Direction.opposite[edge.direction]
-        @callback this, nx, ny
+        @maze.carve nx, ny, Maze.Direction.opposite[edge.direction]
+        @callback @maze, nx, ny
 
         break
 

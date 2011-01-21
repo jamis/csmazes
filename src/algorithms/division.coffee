@@ -6,13 +6,13 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.RecursiveDivision extends Maze
+class Maze.Algorithms.RecursiveDivision extends Maze.Algorithm
   HORIZONTAL: 1
   VERTICAL:   2
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
-    @stack = [ x: 0, y: 0, width: @width, height: @height ]
+    @stack = [ x: 0, y: 0, width: @maze.width, height: @maze.height ]
 
   chooseOrientation: (width, height) ->
     if width < height
@@ -50,13 +50,13 @@ class Maze.Algorithms.RecursiveDivision extends Maze
 
       while length > 0
         if wx != px || wy != py
-          @carve wx, wy, dir
-          @callback this, wx, wy
+          @maze.carve wx, wy, dir
+          @callback @maze, wx, wy
 
           nx = wx + Maze.Direction.dx[dir]
           ny = wy + Maze.Direction.dy[dir]
-          @carve nx, ny, odir
-          @callback this, nx, ny
+          @maze.carve nx, ny, odir
+          @callback @maze, nx, ny
 
         wx += dx
         wy += dy

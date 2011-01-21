@@ -6,7 +6,7 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.RecursiveBacktracker extends Maze
+class Maze.Algorithms.RecursiveBacktracker extends Maze.Algorithm
   IN:    0x10
   STACK: 0x20
 
@@ -14,7 +14,7 @@ class Maze.Algorithms.RecursiveBacktracker extends Maze
   RUN:   2
   DONE:  3
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
     @state = @START
     @stack = []
@@ -27,10 +27,10 @@ class Maze.Algorithms.RecursiveBacktracker extends Maze
     @state != @DONE
 
   startStep: ->
-    [x, y] = [@rand.nextInteger(@width), @rand.nextInteger(@height)]
-    @carve x, y, @IN | @STACK
-    @callback this, x, y
-    @stack.push x: x, y: y, dirs: @randomDirections()
+    [x, y] = [@rand.nextInteger(@maze.width), @rand.nextInteger(@maze.height)]
+    @maze.carve x, y, @IN | @STACK
+    @callback @maze, x, y
+    @stack.push x: x, y: y, dirs: @rand.randomDirections()
     @state = @RUN
 
   runStep: ->
@@ -41,21 +41,21 @@ class Maze.Algorithms.RecursiveBacktracker extends Maze
       nx = current.x + Maze.Direction.dx[dir]
       ny = current.y + Maze.Direction.dy[dir]
 
-      if @isValid(nx, ny) && @isBlank(nx, ny)
-        @stack.push x: nx, y: ny, dirs: @randomDirections()
-        @carve current.x, current.y, dir
-        @callback this, current.x, current.y
+      if @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
+        @stack.push x: nx, y: ny, dirs: @rand.randomDirections()
+        @maze.carve current.x, current.y, dir
+        @callback @maze, current.x, current.y
 
-        @carve nx, ny, Maze.Direction.opposite[dir] | @STACK
-        @callback this, nx, ny
+        @maze.carve nx, ny, Maze.Direction.opposite[dir] | @STACK
+        @callback @maze, nx, ny
         break
 
       if current.dirs.length == 0
-        @uncarve current.x, current.y, @STACK
-        @callback this, current.x, current.y
+        @maze.uncarve current.x, current.y, @STACK
+        @callback @maze, current.x, current.y
         @stack.pop()
         break
 
     @state = @DONE if @stack.length == 0
 
-  isStack: (x, y) -> @isSet(x, y, @STACK)
+  isStack: (x, y) -> @maze.isSet(x, y, @STACK)

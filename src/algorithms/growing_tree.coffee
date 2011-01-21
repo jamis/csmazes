@@ -6,10 +6,10 @@ The original CoffeeScript sources are always available on GitHub:
 http://github.com/jamis/csmazes
 ###
 
-class Maze.Algorithms.GrowingTree extends Maze
+class Maze.Algorithms.GrowingTree extends Maze.Algorithm
   QUEUE: 0x10
 
-  constructor: (width, height, options) ->
+  constructor: (maze, options) ->
     super
     @cells = []
     @state = 0
@@ -19,12 +19,12 @@ class Maze.Algorithms.GrowingTree extends Maze
     for key, weight of @weights
       @totalWeights += weight
 
-  inQueue: (x, y) -> @isSet(x, y, @QUEUE)
+  inQueue: (x, y) -> @maze.isSet(x, y, @QUEUE)
 
   enqueue: (x, y) ->
-    @carve x, y, @QUEUE
+    @maze.carve x, y, @QUEUE
     @cells.push x: x, y: y
-    @callback this, x, y
+    @callback @maze, x, y
 
   nextCell: ->
     target = @rand.nextInteger(@totalWeights)
@@ -43,28 +43,28 @@ class Maze.Algorithms.GrowingTree extends Maze
     throw "[bug] shouldn't get here"
     
   startStep: ->
-    @enqueue @rand.nextInteger(@width), @rand.nextInteger(@height)
+    @enqueue @rand.nextInteger(@maze.width), @rand.nextInteger(@maze.height)
     @state = 1
 
   runStep: ->
     index = @nextCell()
     cell = @cells[index]
 
-    for direction in @randomDirections()
+    for direction in @rand.randomDirections()
       nx = cell.x + Maze.Direction.dx[direction]
       ny = cell.y + Maze.Direction.dy[direction]
 
-      if @isValid(nx, ny) && @isBlank(nx, ny)
-        @carve cell.x, cell.y, direction
-        @carve nx, ny, Maze.Direction.opposite[direction]
+      if @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
+        @maze.carve cell.x, cell.y, direction
+        @maze.carve nx, ny, Maze.Direction.opposite[direction]
         @enqueue nx, ny
-        @callback this, cell.x, cell.y
-        @callback this, nx, ny
+        @callback @maze, cell.x, cell.y
+        @callback @maze, nx, ny
         return
 
     @cells.splice(index, 1)
-    @uncarve cell.x, cell.y, @QUEUE
-    @callback this, cell.x, cell.y
+    @maze.uncarve cell.x, cell.y, @QUEUE
+    @callback @maze, cell.x, cell.y
     
   step: ->
     switch @state
