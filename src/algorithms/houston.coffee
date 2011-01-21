@@ -12,8 +12,9 @@ http://github.com/jamis/csmazes
 # populated.
 #
 # This gives you better performance than either algorithm by itself,
-# and still ensures that the resulting maze is a uniform spanning
-# tree.
+# but while intuitively it would seem this preserves the properties
+# of the original algorithms, it is not yet certain whether this still
+# creates a uniform spanning tree or not.
 class Maze.Algorithms.Houston extends Maze.Algorithm
   constructor: (maze, options) ->
     super
