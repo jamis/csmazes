@@ -65,6 +65,12 @@ Maze.createWidget = (algorithm, width, height, options) ->
       else if maze.algorithm.isVisited(x, y)
         classes.push "f"
 
+    Houston: (maze, x, y, classes) ->
+      if maze.algorithm.worker.isVisited?
+        ACTIONS.Wilson(maze, x, y, classes)
+      else
+        ACTIONS.AldousBroder(maze, x, y, classes)
+
     default: (maze, x, y, classes) ->
       unless maze.isBlank(x, y)
         classes.push "in"
