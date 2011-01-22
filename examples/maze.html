@@ -155,9 +155,9 @@
     <small>You must click "reset" before the maze will recognize your changes.</small>
   </p>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 5, 5, { "class": "small", input: "growing_tree_input" });</script>
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 15, 15, { "class": "medium", id: "growtree_bigger", interval: 25, input: "growing_tree_input" });</script>
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 30, 30, { "class": "large", id: "growtree_biggest", interval: 10, input: "growing_tree_input" });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 5, 5, { "class": "small", input: function() { return document.getElementById("growing_tree_input").value; } });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 15, 15, { "class": "medium", id: "growtree_bigger", interval: 25, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 30, 30, { "class": "large", id: "growtree_biggest", interval: 10, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
   </div>
   <hr />
 
