@@ -13,11 +13,7 @@ class Maze.Algorithms.GrowingTree extends Maze.Algorithm
     super
     @cells = []
     @state = 0
-    @weights = options.input ? { random: 50 }
-
-    @totalWeights = 0
-    for key, weight of @weights
-      @totalWeights += weight
+    @script = new Maze.Algorithms.GrowingTree.Script(options.input ? "random", @rand)
 
   inQueue: (x, y) -> @maze.isSet(x, y, @QUEUE)
 
@@ -26,21 +22,7 @@ class Maze.Algorithms.GrowingTree extends Maze.Algorithm
     @cells.push x: x, y: y
     @callback @maze, x, y
 
-  nextCell: ->
-    target = @rand.nextInteger(@totalWeights)
-    ceil = 0
-
-    for key, weight of @weights
-      ceil += weight
-      if ceil > target
-        return switch key
-          when 'random' then @rand.nextInteger(@cells.length)
-          when 'newest' then @cells.length - 1
-          when 'oldest' then 0
-          when 'middle' then Math.floor(@cells.length / 2)
-          else throw "invalid weight key `#{key}'"
-
-    throw "[bug] shouldn't get here"
+  nextCell: -> @script.nextIndex(@cells.length)
     
   startStep: ->
     @enqueue @rand.nextInteger(@maze.width), @rand.nextInteger(@maze.height)
@@ -72,3 +54,28 @@ class Maze.Algorithms.GrowingTree extends Maze.Algorithm
       when 1 then @runStep()
 
     @cells.length > 0
+
+class Maze.Algorithms.GrowingTree.Script
+  constructor: (input, rand) ->
+    @rand = rand
+    @commands = for command in input.split(/;|\r?\n/)
+      totalWeight = 0
+      parts = for part in command.split(/,/)
+        [name, weight] = part.split(/:/)
+        { name: name.replace(/\s/, ""), weight: totalWeight += (weight ? 100) }
+      { total: totalWeight, parts: parts }
+    @current = 0
+
+  nextIndex: (ceil) ->
+    command = @commands[@current]
+    @current = (@current + 1) % @commands.length
+
+    target = @rand.nextInteger(command.total)
+    for part in command.parts
+      if target < part.weight
+        return switch part.name
+          when 'random' then @rand.nextInteger(ceil)
+          when 'newest' then ceil - 1
+          when 'middle' then Math.floor(ceil / 2)
+          when 'oldest' then 0
+          else throw "invalid weight key `#{part.name}'"

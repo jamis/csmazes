@@ -142,11 +142,9 @@ Maze.createWidget = (algorithm, width, height, options) ->
       clearInterval @mazeStepInterval
       @mazeStepInterval = null
 
-    if options.input
-      value = document.getElementById(options.input).value
-      eval("this.__input = {" + value + "}")
+    value = document.getElementById(options.input).value if options.input?
 
-    @maze = new Maze(width, height, Maze.Algorithms[algorithm], callback: options.callback, seed: options.seed, rng: options.rng, input: @__input)
+    @maze = new Maze(width, height, Maze.Algorithms[algorithm], callback: options.callback, seed: options.seed, rng: options.rng, input: value)
     @maze.element = this
 
     grid = ""
