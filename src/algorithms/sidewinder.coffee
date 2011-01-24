@@ -18,7 +18,7 @@ class Maze.Algorithms.Sidewinder extends Maze.Algorithm
 
   startStep: ->
     @maze.carve @x, @y, @IN
-    @callback @maze, @x, @y
+    @updateAt @x, @y
     @state = 1
 
   runStep: ->
@@ -26,17 +26,17 @@ class Maze.Algorithms.Sidewinder extends Maze.Algorithm
       cell = @runStart + @rand.nextInteger(@x - @runStart + 1)
       @maze.carve cell, @y, Maze.Direction.N
       @maze.carve cell, @y-1, Maze.Direction.S
-      @callback @maze, cell, @y
-      @callback @maze, cell, @y-1
+      @updateAt cell, @y
+      @updateAt cell, @y-1
       @runStart = @x + 1
     else if @x+1 < @maze.width
       @maze.carve @x, @y, Maze.Direction.E
       @maze.carve @x+1, @y, Maze.Direction.W
-      @callback @maze, @x, @y
-      @callback @maze, @x+1, @y
+      @updateAt @x, @y
+      @updateAt @x+1, @y
     else
       @maze.carve @x, @y, @IN
-      @callback @maze, @x, @y
+      @updateAt @x, @y
 
     @x++
     if @x >= @maze.width

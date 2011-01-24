@@ -39,13 +39,13 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
         @state.merge @column, @column+1
 
         @maze.carve @column, @row, Maze.Direction.E
-        @callback @maze, @column, @row
+        @updateAt @column, @row
 
         @maze.carve @column+1, @row, Maze.Direction.W
-        @callback @maze, @column+1, @row
+        @updateAt @column+1, @row
       else if @maze.isBlank(@column, @row)
         @maze.carve @column, @row, @IN
-        @callback @maze, @column, @row
+        @updateAt @column, @row
       else
         changed = false
 
@@ -54,7 +54,7 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
     if @column+1 >= @maze.width
       if @maze.isBlank(@column, @row)
         @maze.carve @column, @row, @IN
-        @callback @maze, @column, @row
+        @updateAt @column, @row
 
       if @isFinal()
         @pending = false
@@ -79,10 +79,10 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
     @next_state.add cell, @state.setFor(cell)
 
     @maze.carve cell, @row, Maze.Direction.S
-    @callback @maze, cell, @row
+    @updateAt cell, @row
 
     @maze.carve cell, @row+1, Maze.Direction.N
-    @callback @maze, cell, @row+1
+    @updateAt cell, @row+1
 
     if @verticals.length == 0
       @state = @next_state.populate()

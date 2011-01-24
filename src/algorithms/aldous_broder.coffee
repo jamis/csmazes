@@ -20,7 +20,7 @@ class Maze.Algorithms.AldousBroder extends Maze.Algorithm
     @x = @rand.nextInteger(@maze.width)
     @y = @rand.nextInteger(@maze.height)
     @maze.carve @x, @y, @IN
-    @callback @maze, @x, @y
+    @updateAt @x, @y
     @remaining--
     @state = 1
 
@@ -42,8 +42,8 @@ class Maze.Algorithms.AldousBroder extends Maze.Algorithm
               delete @x
               delete @y
 
-          @callback @maze, x, y
-          @callback @maze, nx, ny
+          @updateAt x, y
+          @updateAt nx, ny
 
           break
 

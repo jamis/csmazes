@@ -51,12 +51,12 @@ class Maze.Algorithms.RecursiveDivision extends Maze.Algorithm
       while length > 0
         if wx != px || wy != py
           @maze.carve wx, wy, dir
-          @callback @maze, wx, wy
+          @updateAt wx, wy
 
           nx = wx + Maze.Direction.dx[dir]
           ny = wy + Maze.Direction.dy[dir]
           @maze.carve nx, ny, odir
-          @callback @maze, nx, ny
+          @updateAt nx, ny
 
         wx += dx
         wy += dy

@@ -29,11 +29,11 @@ class Maze.Algorithms.BinaryTree extends Maze.Algorithm
       @maze.carve @x, @y, direction
       @maze.carve nx, ny, Maze.Direction.opposite[direction]
 
-      @callback @maze, nx, ny
+      @updateAt nx, ny
     else
       @maze.carve @x, @y, @IN
 
-    @callback @maze, @x, @y
+    @updateAt @x, @y
 
     @x++
     if @x >= @maze.width

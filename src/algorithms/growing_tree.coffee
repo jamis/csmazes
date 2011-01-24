@@ -20,7 +20,7 @@ class Maze.Algorithms.GrowingTree extends Maze.Algorithm
   enqueue: (x, y) ->
     @maze.carve x, y, @QUEUE
     @cells.push x: x, y: y
-    @callback @maze, x, y
+    @updateAt x, y
 
   nextCell: -> @script.nextIndex(@cells.length)
     
@@ -40,13 +40,13 @@ class Maze.Algorithms.GrowingTree extends Maze.Algorithm
         @maze.carve cell.x, cell.y, direction
         @maze.carve nx, ny, Maze.Direction.opposite[direction]
         @enqueue nx, ny
-        @callback @maze, cell.x, cell.y
-        @callback @maze, nx, ny
+        @updateAt cell.x, cell.y
+        @updateAt nx, ny
         return
 
     @cells.splice(index, 1)
     @maze.uncarve cell.x, cell.y, @QUEUE
-    @callback @maze, cell.x, cell.y
+    @updateAt cell.x, cell.y
     
   step: ->
     switch @state

@@ -27,12 +27,12 @@ class Maze.Algorithms.Prim extends Maze.Algorithm
     if @isOutside(x, y)
       @frontierCells.push x: x, y: y
       @maze.carve x, y, @FRONTIER
-      @callback @maze, x, y
+      @updateAt x, y
 
   markCell: (x, y) ->
     @maze.carve x, y, @IN
     @maze.uncarve x, y, @FRONTIER
-    @callback @maze, x, y
+    @updateAt x, y
 
     @addFrontier x-1, y
     @addFrontier x+1, y
@@ -60,7 +60,7 @@ class Maze.Algorithms.Prim extends Maze.Algorithm
     ny = cell.y + Maze.Direction.dy[direction]
 
     @maze.carve nx, ny, Maze.Direction.opposite[direction]
-    @callback @maze, nx, ny
+    @updateAt nx, ny
 
     @maze.carve cell.x, cell.y, direction
     @markCell cell.x, cell.y

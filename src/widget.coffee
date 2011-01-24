@@ -76,14 +76,16 @@ Maze.createWidget = (algorithm, width, height, options) ->
         classes.push "in"
         updateWalls maze, x, y, classes
 
-  defaultCallback = (maze, x, y) ->
+  updateCallback = (maze, x, y) ->
     classes = []
     (ACTIONS[algorithm] || ACTIONS.default)(maze, x, y, classes)
     cell = document.getElementById("#{maze.element.id}_y#{y}x#{x}")
     cell.className = classes.join(" ")
 
+  eventCallback = (maze, x, y) ->
+    maze.element.mazePause()
+
   id = options.id || algorithm.toLowerCase()
-  options.callback ?= defaultCallback
   options.interval ?= 50
 
   mazeClass = "maze"
@@ -121,6 +123,11 @@ Maze.createWidget = (algorithm, width, height, options) ->
           el.className += " " if el.className.length > 0
           el.className += className
 
+  element.mazePause = ->
+    if @mazeStepInterval?
+      clearInterval @mazeStepInterval
+      @mazeStepInterval = null
+
   element.mazeRun = ->
     if @mazeStepInterval?
       clearInterval @mazeStepInterval
@@ -147,8 +154,10 @@ Maze.createWidget = (algorithm, width, height, options) ->
     else
       value = options.input
 
-    @maze = new Maze(width, height, Maze.Algorithms[algorithm], callback: options.callback, seed: options.seed, rng: options.rng, input: value)
+    @maze = new Maze(width, height, Maze.Algorithms[algorithm], seed: options.seed, rng: options.rng, input: value)
     @maze.element = this
+    @maze.onUpdate(updateCallback)
+    @maze.onEvent(eventCallback)
 
     grid = ""
     for y in [0...@maze.height]

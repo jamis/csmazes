@@ -36,10 +36,10 @@ class Maze.Algorithms.Kruskal extends Maze.Algorithm
         set1.connect set2
 
         @maze.carve edge.x, edge.y, edge.direction
-        @callback @maze, edge.x, edge.y
+        @updateAt edge.x, edge.y
 
         @maze.carve nx, ny, Maze.Direction.opposite[edge.direction]
-        @callback @maze, nx, ny
+        @updateAt nx, ny
 
         break
 

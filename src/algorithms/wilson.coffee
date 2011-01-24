@@ -25,7 +25,7 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
     x = @rand.nextInteger(@maze.width)
     y = @rand.nextInteger(@maze.height)
     @maze.carve x, y, @IN
-    @callback @maze, x, y
+    @updateAt x, y
     @remaining--
     @state = 1
 
@@ -39,7 +39,7 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
         @state = 2
         @start = x: @x, y: @y
         @addVisit @x, @y
-        @callback @maze, @x, @y
+        @updateAt @x, @y
         break
 
   walkStep: ->
@@ -50,8 +50,8 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
       if @maze.isValid(nx, ny)
         [x, y, @x, @y] = [@x, @y, nx, ny]
         @addVisit x, y, direction
-        @callback @maze, x, y
-        @callback @maze, nx, ny
+        @updateAt x, y
+        @updateAt nx, ny
 
         unless @maze.isBlank(nx, ny)
           @x = @start.x
@@ -64,7 +64,7 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
     for key, dir of @visits
       [x, y] = key.split(":")
       delete @visits[key]
-      @callback @maze, x, y
+      @updateAt x, y
 
   runStep: ->
     if @remaining > 0
@@ -85,8 +85,8 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
         delete @x
         delete @y
 
-      @callback @maze, x, y
-      @callback @maze, nx, ny
+      @updateAt x, y
+      @updateAt nx, ny
 
       @remaining--
 

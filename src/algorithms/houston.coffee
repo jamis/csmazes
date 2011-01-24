@@ -19,13 +19,17 @@ class Maze.Algorithms.Houston extends Maze.Algorithm
   constructor: (maze, options) ->
     super
     @options = options
-    @worker = new Maze.Algorithms.AldousBroder(maze, options)
     @threshold = 2 * @maze.width * @maze.height / 3
 
   isCurrent: (x, y) -> @worker.isCurrent(x, y)
   isVisited: (x, y) -> @worker.isVisited(x, y)
 
   step: ->
+    unless @worker?
+      @worker = new Maze.Algorithms.AldousBroder(@maze, @options)
+      @worker.onUpdate(@updateCallback)
+      @worker.onEvent(@eventCallback)
+
     if @worker.remaining < @threshold
       # kind of messy, need to tell the callback listener that
       # current cell is no longer current, since the algorithm
@@ -33,11 +37,13 @@ class Maze.Algorithms.Houston extends Maze.Algorithm
       [x, y] = [@worker.x, @worker.y]
       delete @worker.x
       delete @worker.y
-      @callback @maze, x, y
+      @updateAt x, y
 
       # switch to wilsons and redefine the step method so it
       # no longer watches the threshold.
       wilsons = new Maze.Algorithms.Wilson(@maze, @options)
+      wilsons.onUpdate(@updateCallback)
+      wilsons.onEvent(@eventCallback)
       wilsons.state = 1
       wilsons.remaining = @worker.remaining
 

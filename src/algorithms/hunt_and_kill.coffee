@@ -19,13 +19,13 @@ class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
 
   callbackRow: (y) ->
     for x in [0...@maze.width]
-      @callback @maze, x, y
+      @updateAt x, y
 
   startStep: ->
     @x = @rand.nextInteger(@maze.width)
     @y = @rand.nextInteger(@maze.height)
     @maze.carve @x, @y, @IN
-    @callback @maze, @x, @y
+    @updateAt @x, @y
     @state = 1
 
   walkStep: ->
@@ -37,14 +37,14 @@ class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
         [x, y, @x, @y] = [@x, @y, nx, ny]
         @maze.carve x, y, direction
         @maze.carve nx, ny, Maze.Direction.opposite[direction]
-        @callback @maze, x, y
-        @callback @maze, nx, ny
+        @updateAt x, y
+        @updateAt nx, ny
         return
 
     [x, y] = [@x, @y]
     delete @x
     delete @y
-    @callback @maze, x, y # remove highlight from current cell
+    @updateAt x, y # remove highlight from current cell
     @y = 0
     @callbackRow 0 # highlight the first row
     @state = 2
@@ -71,7 +71,7 @@ class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
           @state = 1
 
           # update passages for neighbor
-          @callback @maze, nx, ny
+          @updateAt nx, ny
 
           # clear highlight in row (because we set @x) and update passages at @x, @y
           @callbackRow @y

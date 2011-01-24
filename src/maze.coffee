@@ -28,6 +28,9 @@ class Maze
 
     @algorithm = new algorithm(this, options)
 
+  onUpdate: (fn) -> @algorithm.onUpdate(fn)
+  onEvent: (fn) -> @algorithm.onEvent(fn)
+
   generate: -> loop
     break unless @step()
 
@@ -48,8 +51,15 @@ Maze.Algorithms = {}
 class Maze.Algorithm
   constructor: (@maze, options) ->
     options ?= {}
-    @callback = options.callback ? (maze, x, y) ->
+    @updateCallback = (maze, x, y) ->
+    @eventCallback = (maze, x, y) ->
     @rand = @maze.rand
+
+  onUpdate: (fn) -> @updateCallback = fn
+  onEvent: (fn) -> @eventCallback = fn
+
+  updateAt: (x, y) -> @updateCallback(@maze, x, y)
+  eventAt: (x, y) -> @eventCallback(@maze, x, y)
 
 Maze.Direction =
   N: 1

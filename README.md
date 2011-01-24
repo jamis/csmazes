@@ -64,11 +64,7 @@ runs, or how the grid is displayed. These properties are supported:
   maze constructor, or a function, in which case it is invoked first and
   the return value used as the value passed to the maze. The actual format
   of the string is dependent on the algorithm used.
-* **callback** : a function invoked whenever a cell is updated in the grid.
-  The callback should accept three parameters: the maze object, and the x
-  and y coordinates of the cell. If not specified, a default callback
-  appropriate to the selected algorithm will be used.
-* **interval** : the delay (in milliseconds) between updates when the maze
+* **interval** : the delay (in milliseconds) between steps when the maze
   is in "run" mode. Defaults to 50ms.
 * **wallwise** : a boolean value indicating whether the maze is to be
   displayed as a passage carver (false) or a wall adder (true). The meaning
@@ -85,7 +81,6 @@ runs, or how the grid is displayed. These properties are supported:
   generate a series of mazes with the same original seed. If used, this should
   be an instance of MersenneTwister (defined in mersenne.coffee), or should
   at least conform to the same interface.
-
 
 Advanced Usage
 --------------
@@ -110,11 +105,26 @@ parameter, an object, whose properties can be used to customize how the
 maze is built. The following properties are understood (and have the same
 meaning as their counterparts in the widget helper):
 
-* **callback** : the default callback does nothing.
 * **input** : a string used as input to the algorithm, which can be used to
   customize its behavior. Not all algorithms use this parameter.
 * **seed**
 * **rng**
+
+To indicate interest in the progress of the maze, you can use the onUpdate and
+onEvent methods to register callbacks that will be invoked. The onUpdate
+callback is triggered every time a cell is changed. The onEvent callback is
+triggered whenever an algorithm-dependent "event" occurs (e.g. the recursive
+backtracker hits a dead-end and has to backtrack). Both callbacks accept three
+parameters: the maze object that caused the callback, and the x and y coordinates
+that are relevant.
+
+    maze.onUpdate(function(m, x, y) {
+      // update the display, etc.
+    });
+
+    maze.onEvent(function(m, x, y) {
+      // pause the animation, etc.
+    });
 
 License
 -------
