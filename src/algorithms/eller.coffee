@@ -62,6 +62,7 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
         @mode = @VERTICAL
         @next_state = @state.next()
         @verticals = @computeVerticals()
+        @eventAt 0, @row
 
   computeVerticals: ->
     verts = []
@@ -88,6 +89,7 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
       @state = @next_state.populate()
       @row += 1
       @initializeRow()
+      @eventAt 0, @row
 
   step: ->
     switch @mode

@@ -36,6 +36,7 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
       @x = @rand.nextInteger(@maze.width)
       @y = @rand.nextInteger(@maze.height)
       if @maze.isBlank(@x, @y)
+        @eventAt @x, @y
         @state = 2
         @start = x: @x, y: @y
         @addVisit @x, @y
@@ -57,6 +58,7 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
           @x = @start.x
           @y = @start.y
           @state = 3
+          @eventAt @x, @y
 
         break
 

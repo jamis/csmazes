@@ -39,5 +39,6 @@ class Maze.Algorithms.BinaryTree extends Maze.Algorithm
     if @x >= @maze.width
       @x = 0
       @y++
+      @eventAt @x, @y
 
     return @y < @maze.height

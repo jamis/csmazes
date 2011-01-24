@@ -45,6 +45,7 @@ class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
     delete @x
     delete @y
     @updateAt x, y # remove highlight from current cell
+    @eventAt x, y
     @y = 0
     @callbackRow 0 # highlight the first row
     @state = 2
@@ -75,6 +76,7 @@ class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
 
           # clear highlight in row (because we set @x) and update passages at @x, @y
           @callbackRow @y
+          @eventAt nx, ny
 
           return
 

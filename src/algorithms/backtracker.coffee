@@ -32,6 +32,7 @@ class Maze.Algorithms.RecursiveBacktracker extends Maze.Algorithm
     @updateAt x, y
     @stack.push x: x, y: y, dirs: @rand.randomDirections()
     @state = @RUN
+    @carvedOnLastStep = true
 
   runStep: ->
     loop
@@ -48,12 +49,16 @@ class Maze.Algorithms.RecursiveBacktracker extends Maze.Algorithm
 
         @maze.carve nx, ny, Maze.Direction.opposite[dir] | @STACK
         @updateAt nx, ny
+        @eventAt nx, ny unless @carvedOnLastStep
+        @carvedOnLastStep = true
         break
 
       if current.dirs.length == 0
         @maze.uncarve current.x, current.y, @STACK
         @updateAt current.x, current.y
+        @eventAt current.x, current.y if @carvedOnLastStep
         @stack.pop()
+        @carvedOnLastStep = false
         break
 
     @state = @DONE if @stack.length == 0

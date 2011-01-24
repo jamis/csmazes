@@ -23,8 +23,11 @@ class Maze.Algorithms.AldousBroder extends Maze.Algorithm
     @updateAt @x, @y
     @remaining--
     @state = 1
+    @carvedOnLastStep = true
 
   runStep: ->
+    carved = false
+
     if @remaining > 0
       for dir in @rand.randomDirections()
         nx = @x + Maze.Direction.dx[dir]
@@ -37,6 +40,7 @@ class Maze.Algorithms.AldousBroder extends Maze.Algorithm
             @maze.carve x, y, dir
             @maze.carve @x, @y, Maze.Direction.opposite[dir]
             @remaining--
+            carved = true
 
             if @remaining == 0
               delete @x
@@ -46,6 +50,9 @@ class Maze.Algorithms.AldousBroder extends Maze.Algorithm
           @updateAt nx, ny
 
           break
+
+    @eventAt @x, @y if carved != @carvedOnLastStep
+    @carvedOnLastStep = carved
 
     return @remaining > 0
 

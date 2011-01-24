@@ -38,6 +38,7 @@ class Maze.Algorithms.Houston extends Maze.Algorithm
       delete @worker.x
       delete @worker.y
       @updateAt x, y
+      @eventAt x, y
 
       # switch to wilsons and redefine the step method so it
       # no longer watches the threshold.
