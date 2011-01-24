@@ -1,0 +1,35 @@
+.row .maze {
+  padding: 0 0 20px 20px;
+  display: inline-block;
+}
+
+.maze .grid { width: 210px; height: 210px; }
+.maze .grid .row { width: 210px; }
+
+.small .grid .row div { width: 40px; height: 40px; }
+.medium .grid .row div { width: 12px; height: 12px; }
+.large .grid .row div { width: 5px; height: 5px; }
+
+.maze .grid { border: 1px solid black; }
+
+.maze .grid .row div { display: inline-block; border: 1px solid black; background: #ccc; }
+
+.maze .grid div.in { background: #fff; }
+.maze .grid div.f { background: #faa; }
+.maze .grid div.cursor { background: #7f7; }
+
+.maze .grid div.e { border-right: none; padding-right: 1px; }
+.maze .grid div.w { border-left: none; padding-left: 1px; }
+.maze .grid div.n { border-top: none; padding-top: 1px; }
+.maze .grid div.s { border-bottom: none; padding-bottom: 1px; }
+
+.maze .grid.invert { border: 2px solid black; }
+.maze .grid.invert .row div { background: #fff; border: none; padding: 1px; }
+.maze .grid.invert div.e { border-right: 1px solid black; padding-right: 0; }
+.maze .grid.invert div.w { border-left: 1px solid black; padding-left: 0; }
+.maze .grid.invert div.n { border-top: 1px solid black; padding-top: 0; }
+.maze .grid.invert div.s { border-bottom: 1px solid black; padding-bottom: 0; }
+
+.maze .operations { clear: both; text-align: center; padding-top: 5px; }
+.maze .operations a { padding: 0px 5px; color: #00f; }
+.maze .operations a.disabled { color: #777; }
