@@ -83,7 +83,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
     cell.className = classes.join(" ")
 
   eventCallback = (maze, x, y) ->
-    maze.element.mazePause()
+    maze.element.mazePause() if maze.element.quickStep
 
   id = options.id || algorithm.toLowerCase()
   options.interval ?= 50
@@ -94,12 +94,18 @@ Maze.createWidget = (algorithm, width, height, options) ->
   gridClass = "grid"
   gridClass += " invert" if options.wallwise
 
+  if options.watch ? true
+    watch = "<a id='#{id}_watch' href='#' onclick='document.getElementById(\"#{id}\").mazeQuickStep(); return false;'>Watch</a>"
+  else
+    watch = ""
+
   html = """
          <div id="#{id}" class="#{mazeClass}">
            <div id="#{id}_grid" class="#{gridClass}"></div>
            <div class="operations">
              <a id="#{id}_reset" href="#" onclick="document.getElementById('#{id}').mazeReset(); return false;">Reset</a>
              <a id="#{id}_step" href="#" onclick="document.getElementById('#{id}').mazeStep(); return false;">Step</a>
+             #{watch}
              <a id="#{id}_run" href="#" onclick="document.getElementById('#{id}').mazeRun(); return false;">Run</a>
            </div>
          </div>
@@ -127,27 +133,26 @@ Maze.createWidget = (algorithm, width, height, options) ->
     if @mazeStepInterval?
       clearInterval @mazeStepInterval
       @mazeStepInterval = null
+      @quickStep = false
+      return true
 
   element.mazeRun = ->
-    if @mazeStepInterval?
-      clearInterval @mazeStepInterval
-      @mazeStepInterval = null
-    else
+    unless @mazePause()
       @mazeStepInterval = setInterval((=> @mazeStep()), options.interval)
 
   element.mazeStep = ->
     unless @maze.step()
-      if @mazeStepInterval?
-        clearInterval @mazeStepInterval
-        @mazeStepInterval = null
-
+      @mazePause()
       @addClassName document.getElementById("#{@id}_step"), "disabled"
+      @addClassName document.getElementById("#{@id}_watch"), "disabled" if options.watch ? true
       @addClassName document.getElementById("#{@id}_run"), "disabled"
 
+  element.mazeQuickStep = ->
+    @quickStep = true
+    @mazeRun()
+
   element.mazeReset = ->
-    if @mazeStepInterval?
-      clearInterval @mazeStepInterval
-      @mazeStepInterval = null
+    @mazePause()
 
     if typeof options.input == "function"
       value = options.input()
@@ -171,6 +176,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
     gridElement.innerHTML = grid
 
     @removeClassName document.getElementById("#{@id}_step"), "disabled"
+    @removeClassName document.getElementById("#{@id}_watch"), "disabled" if options.watch ? true
     @removeClassName document.getElementById("#{@id}_run"), "disabled"
 
   element.mazeReset()

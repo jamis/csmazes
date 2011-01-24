@@ -94,25 +94,25 @@
 
   <h1>Kruskal's Algorithm</h1>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("Kruskal", 5, 5, { "class": "small" });</script>
-    <script type="text/javascript">Maze.createWidget("Kruskal", 15, 15, { "class": "medium", id: "kruskal_bigger", interval: 25 });</script>
-    <script type="text/javascript">Maze.createWidget("Kruskal", 30, 30, { "class": "large", id: "kruskal_biggest", interval: 10 });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 5, 5, { "class": "small", "watch": false });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 15, 15, { "class": "medium", "watch": false, id: "kruskal_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 30, 30, { "class": "large", "watch": false, id: "kruskal_biggest", interval: 10 });</script>
   </div>
   <hr />
 
   <h1>Prim's Algorithm</h1>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("Prim", 5, 5, { "class": "small" });</script>
-    <script type="text/javascript">Maze.createWidget("Prim", 15, 15, { "class": "medium", id: "prim_bigger", interval: 25 });</script>
-    <script type="text/javascript">Maze.createWidget("Prim", 30, 30, { "class": "large", id: "prim_biggest", interval: 10 });</script>
+    <script type="text/javascript">Maze.createWidget("Prim", 5, 5, { "class": "small", "watch": false });</script>
+    <script type="text/javascript">Maze.createWidget("Prim", 15, 15, { "class": "medium", "watch": false, id: "prim_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("Prim", 30, 30, { "class": "large", "watch": false, id: "prim_biggest", interval: 10 });</script>
   </div>
   <hr />
 
   <h1>Recursive Division</h1>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 5, 5, { "class": "small", wallwise: true });</script>
-    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 15, 15, { "class": "medium", wallwise: true, id: "division_bigger", interval: 25 });</script>
-    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 30, 30, { "class": "large", wallwise: true, id: "division_biggest", interval: 10 });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 5, 5, { "class": "small", "watch": false, wallwise: true });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 15, 15, { "class": "medium", "watch": false, wallwise: true, id: "division_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveDivision", 30, 30, { "class": "large", "watch": false, wallwise: true, id: "division_biggest", interval: 10 });</script>
   </div>
   <hr />
 
@@ -155,9 +155,9 @@
     <small>You must click "reset" before the maze will recognize your changes.</small>
   </p>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 5, 5, { "class": "small", input: function() { return document.getElementById("growing_tree_input").value; } });</script>
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 15, 15, { "class": "medium", id: "growtree_bigger", interval: 25, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 30, 30, { "class": "large", id: "growtree_biggest", interval: 10, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 5, 5, { "class": "small", "watch": false, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 15, 15, { "class": "medium", "watch": false, id: "growtree_bigger", interval: 25, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 30, 30, { "class": "large", id: "growtree_biggest", interval: 10, "watch": false, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
   </div>
   <hr />
 
