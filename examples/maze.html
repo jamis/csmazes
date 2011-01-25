@@ -20,6 +20,16 @@
   <script src="../lib/algorithms/sidewinder.js" type="text/javascript"></script>
   <script src="../lib/algorithms/wilson.js" type="text/javascript"></script>
 
+  <script type="text/javascript">
+    function resetMazes() {
+      for(var i = 0; i < arguments.length; i++) {
+        var id = arguments[i];
+        var element = document.getElementById(id);
+        element.mazeReset();
+      }
+    }
+  </script>
+
   <style type="text/css">
     * { font-family: sans-serif; }
 
@@ -119,22 +129,40 @@
 
   <h1>Growing Tree Algorithm</h1>
   <p>
-    <input type="text" id="growing_tree_input" value="random:100" /><br />
-    <small>E.g. random:50, newest:30, oldest:75, middle:100, or any comma-delimited combination of those.</small><br />
-    <small>You must click "reset" before the maze will recognize your changes.</small>
+    <input type="text" id="growing_tree_input" value="random:100" onchange="resetMazes('growingtree', 'growtree_bigger', 'growtree_biggest');" /><br />
+    <small>E.g. random:50, newest:30, oldest:75, middle:100, or any comma-delimited combination of those.</small>
   </p>
+  <script type="text/javascript">
+    function growingTreeInput() {
+      return document.getElementById("growing_tree_input").value;
+    }
+  </script>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 5, 5, { "class": "small", "watch": false, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 15, 15, { "class": "medium", "watch": false, id: "growtree_bigger", interval: 25, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
-    <script type="text/javascript">Maze.createWidget("GrowingTree", 30, 30, { "class": "large", id: "growtree_biggest", interval: 10, "watch": false, input: function() { return document.getElementById("growing_tree_input").value; } });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 5, 5, { "class": "small", "watch": false, input: growingTreeInput });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 15, 15, { "class": "medium", "watch": false, id: "growtree_bigger", interval: 25, input: growingTreeInput });</script>
+    <script type="text/javascript">Maze.createWidget("GrowingTree", 30, 30, { "class": "large", id: "growtree_biggest", interval: 10, "watch": false, input: growingTreeInput });</script>
   </div>
   <hr />
 
   <h1>Binary Tree Algorithm</h1>
+  <p>
+    Bias: <select id="binary_tree_input" onchange="resetMazes('binarytree', 'btree_bigger', 'btree_biggest');">
+      <option value="nw">Northwest</option>
+      <option value="ne">Northeast</option>
+      <option value="sw">Southwest</option>
+      <option value="se">Southeast</option>
+    </select>
+  </p>
+  <script type="text/javascript">
+    function binaryTreeInput() {
+      var s = document.getElementById('binary_tree_input');
+      return s.options[s.selectedIndex].value;
+    }
+  </script>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("BinaryTree", 5, 5, { "class": "small" });</script>
-    <script type="text/javascript">Maze.createWidget("BinaryTree", 15, 15, { "class": "medium", id: "btree_bigger", interval: 25 });</script>
-    <script type="text/javascript">Maze.createWidget("BinaryTree", 30, 30, { "class": "large", id: "btree_biggest", interval: 10 });</script>
+    <script type="text/javascript">Maze.createWidget("BinaryTree", 5, 5, { "class": "small", input: binaryTreeInput });</script>
+    <script type="text/javascript">Maze.createWidget("BinaryTree", 15, 15, { "class": "medium", input: binaryTreeInput, id: "btree_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("BinaryTree", 30, 30, { "class": "large", input: binaryTreeInput, id: "btree_biggest", interval: 10 });</script>
   </div>
   <hr />
 
