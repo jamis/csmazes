@@ -62,7 +62,8 @@ class Maze.Algorithms.GrowingTree.Script
       totalWeight = 0
       parts = for part in command.split(/,/)
         [name, weight] = part.split(/:/)
-        { name: name.replace(/\s/, ""), weight: totalWeight += (weight ? 100) }
+        totalWeight += parseInt(weight ? 100)
+        { name: name.replace(/\s/, ""), weight: totalWeight }
       { total: totalWeight, parts: parts }
     @current = 0
 
