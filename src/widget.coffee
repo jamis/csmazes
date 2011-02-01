@@ -30,6 +30,9 @@ Maze.createWidget = (algorithm, width, height, options) ->
         else
           classes.push "in"
         updateWalls maze, x, y, classes
+    
+    GrowingBinaryTree: (maze, x, y, classes) ->
+      ACTIONS.GrowingTree(maze, x, y, classes)
 
     HuntAndKill: (maze, x, y, classes) ->
       if maze.algorithm.isCurrent(x, y)
