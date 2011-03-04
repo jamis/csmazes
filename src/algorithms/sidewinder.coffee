@@ -7,7 +7,7 @@ http://github.com/jamis/csmazes
 ###
 
 class Maze.Algorithms.Sidewinder extends Maze.Algorithm
-  IN: 0x10
+  IN: 0x1000
 
   constructor: (maze, options) ->
     super

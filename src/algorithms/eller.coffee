@@ -7,7 +7,7 @@ http://github.com/jamis/csmazes
 ###
 
 class Maze.Algorithms.Eller extends Maze.Algorithm
-  IN:         0x20
+  IN:         0x1000
 
   HORIZONTAL: 0
   VERTICAL:   1

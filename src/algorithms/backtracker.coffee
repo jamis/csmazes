@@ -7,8 +7,8 @@ http://github.com/jamis/csmazes
 ###
 
 class Maze.Algorithms.RecursiveBacktracker extends Maze.Algorithm
-  IN:    0x10
-  STACK: 0x20
+  IN:    0x1000
+  STACK: 0x2000
 
   START: 1
   RUN:   2

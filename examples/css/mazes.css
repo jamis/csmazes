@@ -39,11 +39,20 @@
 .maze .grid.padded .row > div { border: none; padding: 0px; position: relative; background: #ccc; }
 
 .maze .grid.padded div.in div.c,
+.maze .grid.padded div.in.n.u div.wp,
+.maze .grid.padded div.in.n.u div.ep,
+.maze .grid.padded div.in.w.u div.sp,
+.maze .grid.padded div.in.w.u div.np,
 .maze .grid.padded div.in.n div.np,
 .maze .grid.padded div.in.s div.sp,
 .maze .grid.padded div.in.e div.ep,
 .maze .grid.padded div.in.w div.wp { background: #fff; }
+
 .maze .grid.padded div.f div.c,
+.maze .grid.padded div.f.n.u div.wp,
+.maze .grid.padded div.f.n.u div.ep,
+.maze .grid.padded div.f.w.u div.sp,
+.maze .grid.padded div.f.w.u div.np,
 .maze .grid.padded div.f.n div.np,
 .maze .grid.padded div.f.s div.sp,
 .maze .grid.padded div.f.e div.ep,
@@ -72,8 +81,12 @@
 .maze .grid.padded div.wp,
 .maze .grid.padded div.ep { padding-top: 1px; padding-bottom: 1px; }
 
+.maze .grid.padded div.n.u div.ep,
+.maze .grid.padded div.n.u div.wp,
 .maze .grid.padded div.e div.ep,
 .maze .grid.padded div.w div.wp { border-top: 1px solid black; border-bottom: 1px solid black; padding-top: 0px; padding-bottom: 0px; }
+.maze .grid.padded div.w.u div.np,
+.maze .grid.padded div.w.u div.sp,
 .maze .grid.padded div.n div.np,
 .maze .grid.padded div.s div.sp { border-left: 1px solid black; border-right: 1px solid black; padding-left: 0; padding-right: 0; }
 

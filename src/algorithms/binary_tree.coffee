@@ -7,7 +7,7 @@ http://github.com/jamis/csmazes
 ###
 
 class Maze.Algorithms.BinaryTree extends Maze.Algorithm
-  IN: 0x10
+  IN: 0x1000
 
   constructor: (maze, options) ->
     super

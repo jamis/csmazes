@@ -7,8 +7,8 @@ http://github.com/jamis/csmazes
 ###
 
 class Maze.Algorithms.Prim extends Maze.Algorithm
-  IN:       0x10
-  FRONTIER: 0x20
+  IN:       0x1000
+  FRONTIER: 0x2000
 
   START:    1
   EXPAND:   2

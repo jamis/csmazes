@@ -14,6 +14,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
     classes.push "w" if maze.isWest(x, y)
     classes.push "s" if maze.isSouth(x, y)
     classes.push "n" if maze.isNorth(x, y)
+    classes.push "u" if maze.isUnder(x, y)
 
   ACTIONS =
     AldousBroder: (maze, x, y, classes) ->
@@ -163,7 +164,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
     else
       value = options.input
 
-    @maze = new Maze(width, height, Maze.Algorithms[algorithm], seed: options.seed, rng: options.rng, input: value)
+    @maze = new Maze(width, height, Maze.Algorithms[algorithm], seed: options.seed, rng: options.rng, input: value, weave: options.weave)
     @maze.element = this
     @maze.onUpdate(updateCallback)
     @maze.onEvent(eventCallback)

@@ -11,6 +11,7 @@ class Maze
     options ?= {}
     @grid = new Maze.Grid(@width, @height)
     @rand = options.rng || new MersenneTwister(options.seed)
+    @isWeave = options.weave
 
     unless @rand.randomElement?
       @rand.randomElement = (list) -> list[@nextInteger(list.length)]
@@ -40,11 +41,13 @@ class Maze
   isWest: (x, y) -> @grid.isMarked(x, y, Maze.Direction.W)
   isNorth: (x, y) -> @grid.isMarked(x, y, Maze.Direction.N)
   isSouth: (x, y) -> @grid.isMarked(x, y, Maze.Direction.S)
+  isUnder: (x, y) -> @grid.isMarked(x, y, Maze.Direction.U)
   isValid: (x, y) -> 0 <= x < @width and 0 <= y < @height
   carve: (x, y, dir) -> @grid.mark(x, y, dir)
   uncarve: (x, y, dir) -> @grid.clear(x, y, dir)
   isSet: (x, y, dir) -> @grid.isMarked(x, y, dir)
   isBlank: (x, y) -> @grid.at(x, y) == 0
+  isPerpendicular: (x, y, dir) -> (@grid.at(x, y) & Maze.Direction.Mask) == Maze.Direction.cross[dir]
 
 Maze.Algorithms = {}
 
@@ -61,15 +64,48 @@ class Maze.Algorithm
   updateAt: (x, y) -> @updateCallback(@maze, x, y)
   eventAt: (x, y) -> @eventCallback(@maze, x, y)
 
+  canWeave: (dir, thruX, thruY) ->
+    if @maze.isWeave && @maze.isPerpendicular(thruX, thruY, dir)
+      nx = thruX + Maze.Direction.dx[dir]
+      ny = thruY + Maze.Direction.dy[dir]
+      @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
+      
+  performWeave: (dir, fromX, fromY, callback) ->
+    thruX = fromX + Maze.Direction.dx[dir]
+    thruY = fromY + Maze.Direction.dy[dir]
+    toX = thruX + Maze.Direction.dx[dir]
+    toY = thruY + Maze.Direction.dy[dir]
+
+    @maze.carve(fromX, fromY, dir)
+    @maze.carve(toX, toY, Maze.Direction.opposite[dir])
+
+    if @rand.nextBoolean()
+      @maze.carve(thruX, thruY, Maze.Direction.U)
+    else if @maze.isNorth(thruX, thruY)
+      @maze.uncarve(thruX, thruY, Maze.Direction.N|Maze.Direction.S)
+      @maze.carve(thruX, thruY, Maze.Direction.E|Maze.Direction.W|Maze.Direction.U)
+    else
+      @maze.uncarve(thruX, thruY, Maze.Direction.E|Maze.Direction.W)
+      @maze.carve(thruX, thruY, Maze.Direction.N|Maze.Direction.S|Maze.Direction.U)
+
+    callback(toX, toY) if callback
+
+    @updateAt fromX, fromY
+    @updateAt thruX, thruY
+    @updateAt toX, toY
+      
 Maze.Direction =
-  N: 1
-  S: 2
-  E: 4
-  W: 8
+  N: 0x01
+  S: 0x02
+  E: 0x04
+  W: 0x08
+  U: 0x10
+  Mask: (0x01|0x02|0x04|0x08|0x10)
   List: [1, 2, 4, 8]
   dx: { 1: 0, 2: 0, 4: 1, 8: -1 }
   dy: { 1: -1, 2: 1, 4: 0, 8: 0 }
   opposite: { 1: 2, 2: 1, 4: 8, 8: 4 }
+  cross: { 1: 4|8, 2: 4|8, 4: 1|2, 8: 1|2 }
 
 class Maze.Grid
   constructor: (@width, @height) ->

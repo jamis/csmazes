@@ -7,7 +7,7 @@ http://github.com/jamis/csmazes
 ###
 
 class Maze.Algorithms.GrowingTree extends Maze.Algorithm
-  QUEUE: 0x10
+  QUEUE: 0x1000
 
   constructor: (maze, options) ->
     super
@@ -20,12 +20,13 @@ class Maze.Algorithms.GrowingTree extends Maze.Algorithm
   enqueue: (x, y) ->
     @maze.carve x, y, @QUEUE
     @cells.push x: x, y: y
-    @updateAt x, y
 
   nextCell: -> @script.nextIndex(@cells.length)
     
   startStep: ->
-    @enqueue @rand.nextInteger(@maze.width), @rand.nextInteger(@maze.height)
+    [x, y] = [@rand.nextInteger(@maze.width), @rand.nextInteger(@maze.height)]
+    @enqueue x, y
+    @updateAt x, y
     @state = 1
 
   runStep: ->
@@ -36,13 +37,18 @@ class Maze.Algorithms.GrowingTree extends Maze.Algorithm
       nx = cell.x + Maze.Direction.dx[direction]
       ny = cell.y + Maze.Direction.dy[direction]
 
-      if @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
-        @maze.carve cell.x, cell.y, direction
-        @maze.carve nx, ny, Maze.Direction.opposite[direction]
-        @enqueue nx, ny
-        @updateAt cell.x, cell.y
-        @updateAt nx, ny
-        return
+      if @maze.isValid(nx, ny)
+        if @maze.isBlank(nx, ny)
+          @maze.carve cell.x, cell.y, direction
+          @maze.carve nx, ny, Maze.Direction.opposite[direction]
+          @enqueue nx, ny
+          @updateAt cell.x, cell.y
+          @updateAt nx, ny
+          return
+
+        else if @canWeave(direction, nx, ny)
+          @performWeave(direction, cell.x, cell.y, (toX, toY) => @enqueue(toX, toY))
+          return
 
     @cells.splice(index, 1)
     @maze.uncarve cell.x, cell.y, @QUEUE
