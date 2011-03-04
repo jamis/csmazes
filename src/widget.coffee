@@ -96,6 +96,7 @@ Maze.createWidget = (algorithm, width, height, options) ->
 
   gridClass = "grid"
   gridClass += " invert" if options.wallwise
+  gridClass += " padded" if options.padded
 
   if options.watch ? true
     watch = "<a id='#{id}_watch' href='#' onclick='document.getElementById(\"#{id}\").mazeQuickStep(); return false;'>Watch</a>"
@@ -172,7 +173,14 @@ Maze.createWidget = (algorithm, width, height, options) ->
       row_id = "#{@id}_y#{y}"
       grid += "<div class='row' id='#{row_id}'>"
       for x in [0...@maze.width]
-        grid += "<div id='#{row_id}x#{x}'></div>"
+        grid += "<div id='#{row_id}x#{x}'>"
+        if options.padded
+          grid += "<div class='nw'></div>"
+          grid += "<div class='ne'></div>"
+          grid += "<div class='sw'></div>"
+          grid += "<div class='se'></div>"
+          grid += "<div class='c'></div>"
+        grid += "</div>"
       grid += "</div>"
 
     gridElement = document.getElementById("#{@id}_grid")

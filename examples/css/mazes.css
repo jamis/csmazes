@@ -6,13 +6,13 @@
 .maze .grid { width: 210px; height: 210px; }
 .maze .grid .row { width: 210px; }
 
-.small .grid .row div { width: 40px; height: 40px; }
-.medium .grid .row div { width: 12px; height: 12px; }
-.large .grid .row div { width: 5px; height: 5px; }
+.small .grid .row > div { width: 40px; height: 40px; }
+.medium .grid .row > div { width: 12px; height: 12px; }
+.large .grid .row > div { width: 5px; height: 5px; }
 
 .maze .grid { border: 1px solid black; }
 
-.maze .grid .row div { display: inline-block; border: 1px solid black; background: #ccc; }
+.maze .grid .row > div { display: inline-block; border: 1px solid black; background: #ccc; }
 
 .maze .grid div.in { background: #fff; }
 .maze .grid div.f { background: #faa; }
@@ -29,6 +29,54 @@
 .maze .grid.invert div.w { border-left: 1px solid black; padding-left: 0; }
 .maze .grid.invert div.n { border-top: 1px solid black; padding-top: 0; }
 .maze .grid.invert div.s { border-bottom: 1px solid black; padding-bottom: 0; }
+
+.maze .grid { border: none; }
+
+.small .grid.padded .row > div { width: 42px; height: 42px; }
+.medium .grid.padded .row > div { width: 14px; height: 14px; }
+.large .grid.padded .row > div { width: 7px; height: 7px; }
+
+.maze .grid.padded .row > div { border: none; padding: 0px; position: relative; }
+
+.small .grid.padded div.nw,
+.small .grid.padded div.ne,
+.small .grid.padded div.sw,
+.small .grid.padded div.se { width: 5px; height: 5px; border: none; }
+.small .grid.padded div.c { width: 30px; height: 30px; border: 1px solid black; }
+
+.medium .grid.padded div.nw,
+.medium .grid.padded div.ne,
+.medium .grid.padded div.sw,
+.medium .grid.padded div.se { width: 2px; height: 2px; border: none; }
+.medium .grid.padded div.c { width: 8px; height: 8px; border: 1px solid black; }
+
+.maze .grid.padded div.e,
+.maze .grid.padded div.w,
+.maze .grid.padded div.n,
+.maze .grid.padded div.s { border: none; padding: 0; }
+
+.maze .grid.padded div.nw { padding-right: 1px; padding-bottom: 1px; position: absolute; top: 0px; left: 0px; }
+.maze .grid.padded div.ne { padding-left: 1px; padding-bottom: 1px; position: absolute; top: 0px; right: 0px; }
+.maze .grid.padded div.sw { padding-right: 1px; padding-top: 1px; position: absolute; bottom: 0px; left: 0px; }
+.maze .grid.padded div.se { padding-left: 1px; padding-top: 1px; position: absolute; bottom: 0px; right: 0px; }
+
+.small .grid.padded div.c { padding: 0px; position: absolute; left: 5px; top: 5px; }
+.medium .grid.padded div.c { padding: 0px; position: absolute; left: 2px; top: 2px; }
+
+.maze .grid.padded div.e div.ne,
+.maze .grid.padded div.w div.nw { border-bottom: 1px solid black; padding-bottom: 0px; }
+.maze .grid.padded div.e div.se,
+.maze .grid.padded div.w div.sw { border-top: 1px solid black; padding-top: 0px; }
+
+.maze .grid.padded div.n div.nw,
+.maze .grid.padded div.s div.sw { border-right: 1px solid black; padding-right: 0px; }
+.maze .grid.padded div.n div.ne,
+.maze .grid.padded div.s div.se { border-left: 1px solid black; padding-left: 0px; }
+
+.maze .grid.padded div.n div.c { border-top: none; padding-top: 1px; }
+.maze .grid.padded div.e div.c { border-right: none; padding-right: 1px; }
+.maze .grid.padded div.w div.c { border-left: none; padding-left: 1px; }
+.maze .grid.padded div.s div.c { border-bottom: none; padding-bottom: 1px; }
 
 .maze .operations { clear: both; text-align: center; padding-top: 5px; }
 .maze .operations a { padding: 0px 5px; color: #00f; }
