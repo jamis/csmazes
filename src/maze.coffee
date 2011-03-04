@@ -69,7 +69,17 @@ class Maze.Algorithm
       nx = thruX + Maze.Direction.dx[dir]
       ny = thruY + Maze.Direction.dy[dir]
       @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
-      
+
+  performThruWeave: (thruX, thruY) ->
+    if @rand.nextBoolean()
+      @maze.carve(thruX, thruY, Maze.Direction.U)
+    else if @maze.isNorth(thruX, thruY)
+      @maze.uncarve(thruX, thruY, Maze.Direction.N|Maze.Direction.S)
+      @maze.carve(thruX, thruY, Maze.Direction.E|Maze.Direction.W|Maze.Direction.U)
+    else
+      @maze.uncarve(thruX, thruY, Maze.Direction.E|Maze.Direction.W)
+      @maze.carve(thruX, thruY, Maze.Direction.N|Maze.Direction.S|Maze.Direction.U)
+
   performWeave: (dir, fromX, fromY, callback) ->
     thruX = fromX + Maze.Direction.dx[dir]
     thruY = fromY + Maze.Direction.dy[dir]
@@ -79,14 +89,7 @@ class Maze.Algorithm
     @maze.carve(fromX, fromY, dir)
     @maze.carve(toX, toY, Maze.Direction.opposite[dir])
 
-    if @rand.nextBoolean()
-      @maze.carve(thruX, thruY, Maze.Direction.U)
-    else if @maze.isNorth(thruX, thruY)
-      @maze.uncarve(thruX, thruY, Maze.Direction.N|Maze.Direction.S)
-      @maze.carve(thruX, thruY, Maze.Direction.E|Maze.Direction.W|Maze.Direction.U)
-    else
-      @maze.uncarve(thruX, thruY, Maze.Direction.E|Maze.Direction.W)
-      @maze.carve(thruX, thruY, Maze.Direction.N|Maze.Direction.S|Maze.Direction.U)
+    @performThruWeave(thruX, thruY)
 
     callback(toX, toY) if callback
 

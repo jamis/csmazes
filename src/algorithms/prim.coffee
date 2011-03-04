@@ -59,6 +59,14 @@ class Maze.Algorithms.Prim extends Maze.Algorithm
     nx = cell.x + Maze.Direction.dx[direction]
     ny = cell.y + Maze.Direction.dy[direction]
 
+    if @maze.isWeave && @maze.isPerpendicular(nx, ny, direction)
+      nx2 = nx + Maze.Direction.dx[direction]
+      ny2 = ny + Maze.Direction.dy[direction]
+      if @isInside(nx2, ny2)
+        @performThruWeave nx, ny
+        @updateAt nx, ny
+        [nx, ny] = [nx2, ny2]
+
     @maze.carve nx, ny, Maze.Direction.opposite[direction]
     @updateAt nx, ny
 
