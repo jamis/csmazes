@@ -1,16 +1,17 @@
 <html>
 <head>
-  <title>Maze Algorithms</title>
+  <title>Weave Mazes</title>
   <link rel="stylesheet" type="text/css" href="css/mazes.css" />
 
   <script src="../lib/mersenne.js" type="text/javascript"></script>
   <script src="../lib/maze.js" type="text/javascript"></script>
   <script src="../lib/widget.js" type="text/javascript"></script>
 
+  <script src="../lib/algorithms/backtracker.js" type="text/javascript"></script>
   <script src="../lib/algorithms/growing_tree.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/hunt_and_kill.js" type="text/javascript"></script>
   <script src="../lib/algorithms/kruskal.js" type="text/javascript"></script>
   <script src="../lib/algorithms/prim.js" type="text/javascript"></script>
-  <script src="../lib/algorithms/backtracker.js" type="text/javascript"></script>
 
   <script type="text/javascript">
     function resetMazes() {
@@ -44,6 +45,8 @@
   </style>
 </head>
 <body>
+  <h1>Weave Mazes</h1>
+  <p>Weave mazes are mazes in which the passages pass over and under other passages. It's a form of 3D maze, but optimized for 2D rendering. A variety of different algorithms can be adapted to generate weave mazes; those in csMazes that can be used this way are shown below.</p>
   <p>The source code for these demos is freely available at <a href="http://github.com/jamis/csmazes">http://github.com/jamis/csmazes</a>.
   <hr /> 
 
@@ -65,6 +68,13 @@
   <div class="row">
     <script type="text/javascript">Maze.createWidget("Prim", 5, 5, { "class": "small", "weave": true, "padded": true, "watch": false });</script>
     <script type="text/javascript">Maze.createWidget("Prim", 15, 15, { "class": "medium", "watch": false, "weave": true, "padded": true, id: "prim_bigger", interval: 25 });</script>
+  </div>
+  <hr />
+
+  <h1>"Hunt and Kill" Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("HuntAndKill", 5, 5, { "weave": true, "padded": true, "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("HuntAndKill", 15, 15, { "weave": true, "padded": true, "class": "medium", id: "huntkill_bigger", interval: 25 });</script>
   </div>
   <hr />
 

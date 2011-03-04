@@ -33,13 +33,19 @@ class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
       nx = @x + Maze.Direction.dx[direction]
       ny = @y + Maze.Direction.dy[direction]
 
-      if @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
-        [x, y, @x, @y] = [@x, @y, nx, ny]
-        @maze.carve x, y, direction
-        @maze.carve nx, ny, Maze.Direction.opposite[direction]
-        @updateAt x, y
-        @updateAt nx, ny
-        return
+      if @maze.isValid(nx, ny)
+        if @maze.isBlank(nx, ny)
+          [x, y, @x, @y] = [@x, @y, nx, ny]
+          @maze.carve x, y, direction
+          @maze.carve nx, ny, Maze.Direction.opposite[direction]
+          @updateAt x, y
+          @updateAt nx, ny
+          return
+
+        else if @canWeave(direction, nx, ny)
+          @performWeave direction, @x, @y, (x, y) =>
+            [x, y, @x, @y] = [@x, @y, x, y]
+          return
 
     [x, y] = [@x, @y]
     delete @x
