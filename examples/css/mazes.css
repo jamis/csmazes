@@ -36,42 +36,46 @@
 .medium .grid.padded .row > div { width: 14px; height: 14px; }
 .large .grid.padded .row > div { width: 7px; height: 7px; }
 
-.maze .grid.padded .row > div { border: none; padding: 0px; position: relative; }
+.maze .grid.padded .row > div { border: none; padding: 0px; position: relative; background: #ccc; }
 
-.small .grid.padded div.nw,
-.small .grid.padded div.ne,
-.small .grid.padded div.sw,
-.small .grid.padded div.se { width: 5px; height: 5px; border: none; }
-.small .grid.padded div.c { width: 30px; height: 30px; border: 1px solid black; }
+.maze .grid.padded div.in div.c,
+.maze .grid.padded div.in.n div.np,
+.maze .grid.padded div.in.s div.sp,
+.maze .grid.padded div.in.e div.ep,
+.maze .grid.padded div.in.w div.wp { background: #fff; }
+.maze .grid.padded div.f div.c,
+.maze .grid.padded div.f.n div.np,
+.maze .grid.padded div.f.s div.sp,
+.maze .grid.padded div.f.e div.ep,
+.maze .grid.padded div.f.w div.wp { background: #faa; }
+.maze .grid.padded div.cursor div.c { background: #7f7; }
 
-.medium .grid.padded div.nw,
-.medium .grid.padded div.ne,
-.medium .grid.padded div.sw,
-.medium .grid.padded div.se { width: 2px; height: 2px; border: none; }
-.medium .grid.padded div.c { width: 8px; height: 8px; border: 1px solid black; }
+.small .grid.padded div.np { width: 30px; height: 5px; border: none; position: absolute; top: 0px; left: 5px; }
+.small .grid.padded div.sp { width: 30px; height: 5px; border: none; position: absolute; bottom: 0px; left: 5px; }
+.small .grid.padded div.wp { width: 5px; height: 30px; border: none; position: absolute; top: 5px; left: 0px; }
+.small .grid.padded div.ep { width: 5px; height: 30px; border: none; position: absolute; top: 5px; right: 0px; }
+.small .grid.padded div.c { padding: 0; width: 30px; height: 30px; border: 1px solid black; position: absolute; top: 5px; left: 5px; }
+
+.medium .grid.padded div.np { width: 8px; height: 2px; border: none; position: absolute; top: 0px; left: 2px; }
+.medium .grid.padded div.sp { width: 8px; height: 2px; border: none; position: absolute; bottom: 0px; left: 2px; }
+.medium .grid.padded div.wp { width: 2px; height: 8px; border: none; position: absolute; top: 2px; left: 0px; }
+.medium .grid.padded div.ep { width: 2px; height: 8px; border: none; position: absolute; top: 2px; right: 0px; }
+.medium .grid.padded div.c { padding: 0; width: 8px; height: 8px; border: 1px solid black; position: absolute; top: 2px; left: 2px; }
 
 .maze .grid.padded div.e,
 .maze .grid.padded div.w,
 .maze .grid.padded div.n,
 .maze .grid.padded div.s { border: none; padding: 0; }
 
-.maze .grid.padded div.nw { padding-right: 1px; padding-bottom: 1px; position: absolute; top: 0px; left: 0px; }
-.maze .grid.padded div.ne { padding-left: 1px; padding-bottom: 1px; position: absolute; top: 0px; right: 0px; }
-.maze .grid.padded div.sw { padding-right: 1px; padding-top: 1px; position: absolute; bottom: 0px; left: 0px; }
-.maze .grid.padded div.se { padding-left: 1px; padding-top: 1px; position: absolute; bottom: 0px; right: 0px; }
+.maze .grid.padded div.np,
+.maze .grid.padded div.sp { padding-right: 1px; padding-left: 1px; }
+.maze .grid.padded div.wp,
+.maze .grid.padded div.ep { padding-top: 1px; padding-bottom: 1px; }
 
-.small .grid.padded div.c { padding: 0px; position: absolute; left: 5px; top: 5px; }
-.medium .grid.padded div.c { padding: 0px; position: absolute; left: 2px; top: 2px; }
-
-.maze .grid.padded div.e div.ne,
-.maze .grid.padded div.w div.nw { border-bottom: 1px solid black; padding-bottom: 0px; }
-.maze .grid.padded div.e div.se,
-.maze .grid.padded div.w div.sw { border-top: 1px solid black; padding-top: 0px; }
-
-.maze .grid.padded div.n div.nw,
-.maze .grid.padded div.s div.sw { border-right: 1px solid black; padding-right: 0px; }
-.maze .grid.padded div.n div.ne,
-.maze .grid.padded div.s div.se { border-left: 1px solid black; padding-left: 0px; }
+.maze .grid.padded div.e div.ep,
+.maze .grid.padded div.w div.wp { border-top: 1px solid black; border-bottom: 1px solid black; padding-top: 0px; padding-bottom: 0px; }
+.maze .grid.padded div.n div.np,
+.maze .grid.padded div.s div.sp { border-left: 1px solid black; border-right: 1px solid black; padding-left: 0; padding-right: 0; }
 
 .maze .grid.padded div.n div.c { border-top: none; padding-top: 1px; }
 .maze .grid.padded div.e div.c { border-right: none; padding-right: 1px; }

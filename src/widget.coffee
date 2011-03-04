@@ -175,10 +175,10 @@ Maze.createWidget = (algorithm, width, height, options) ->
       for x in [0...@maze.width]
         grid += "<div id='#{row_id}x#{x}'>"
         if options.padded
-          grid += "<div class='nw'></div>"
-          grid += "<div class='ne'></div>"
-          grid += "<div class='sw'></div>"
-          grid += "<div class='se'></div>"
+          grid += "<div class='np'></div>"
+          grid += "<div class='wp'></div>"
+          grid += "<div class='ep'></div>"
+          grid += "<div class='sp'></div>"
           grid += "<div class='c'></div>"
         grid += "</div>"
       grid += "</div>"
