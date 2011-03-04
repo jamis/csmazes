@@ -81,6 +81,10 @@ runs, or how the grid is displayed. These properties are supported:
   generate a series of mazes with the same original seed. If used, this should
   be an instance of MersenneTwister (defined in mersenne.coffee), or should
   at least conform to the same interface.
+* **padded** : if true, adds space around each cell. The default is false.
+* **weave** : if true, generates a "weave" maze (where passages move over
+  and under other passages). This is not supported by all algorithms. For
+  best results, use with **padded** set to true.
 
 Advanced Usage
 --------------
@@ -109,6 +113,7 @@ meaning as their counterparts in the widget helper):
   customize its behavior. Not all algorithms use this parameter.
 * **seed**
 * **rng**
+* **weave**
 
 To indicate interest in the progress of the maze, you can use the onUpdate and
 onEvent methods to register callbacks that will be invoked. The onUpdate
