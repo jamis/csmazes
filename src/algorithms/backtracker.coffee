@@ -42,16 +42,25 @@ class Maze.Algorithms.RecursiveBacktracker extends Maze.Algorithm
       nx = current.x + Maze.Direction.dx[dir]
       ny = current.y + Maze.Direction.dy[dir]
 
-      if @maze.isValid(nx, ny) && @maze.isBlank(nx, ny)
-        @stack.push x: nx, y: ny, dirs: @rand.randomDirections()
-        @maze.carve current.x, current.y, dir
-        @updateAt current.x, current.y
+      if @maze.isValid(nx, ny)
+        if @maze.isBlank(nx, ny)
+          @stack.push x: nx, y: ny, dirs: @rand.randomDirections()
+          @maze.carve current.x, current.y, dir
+          @updateAt current.x, current.y
 
-        @maze.carve nx, ny, Maze.Direction.opposite[dir] | @STACK
-        @updateAt nx, ny
-        @eventAt nx, ny unless @carvedOnLastStep
-        @carvedOnLastStep = true
-        break
+          @maze.carve nx, ny, Maze.Direction.opposite[dir] | @STACK
+          @updateAt nx, ny
+          @eventAt nx, ny unless @carvedOnLastStep
+          @carvedOnLastStep = true
+          break
+
+        else if @canWeave(dir, nx, ny)
+          @performWeave dir, current.x, current.y, (x, y) =>
+            @stack.push(x:x, y:y, dirs:@rand.randomDirections())
+            @eventAt x, y unless @carvedOnLastStep
+            @maze.carve x, y, @STACK
+          @carvedOnLastStep = true
+          break
 
       if current.dirs.length == 0
         @maze.uncarve current.x, current.y, @STACK

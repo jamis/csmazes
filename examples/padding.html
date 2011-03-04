@@ -7,8 +7,10 @@
   <script src="../lib/maze.js" type="text/javascript"></script>
   <script src="../lib/widget.js" type="text/javascript"></script>
 
-  <script src="../lib/algorithms/prim.js" type="text/javascript"></script>
   <script src="../lib/algorithms/growing_tree.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/kruskal.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/prim.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/backtracker.js" type="text/javascript"></script>
 
   <script type="text/javascript">
     function resetMazes() {
@@ -44,6 +46,20 @@
 <body>
   <p>The source code for these demos is freely available at <a href="http://github.com/jamis/csmazes">http://github.com/jamis/csmazes</a>.
   <hr /> 
+
+  <h1>Recursive Backtracking</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("RecursiveBacktracker", 5, 5, { "padded": true, "weave": true, "class": "small" });</script>
+    <script type="text/javascript">Maze.createWidget("RecursiveBacktracker", 15, 15, { "class": "medium", "padded": true, "weave": true, id: "backtracker_bigger", interval: 25 });</script>
+  </div>
+  <hr />
+
+  <h1>Kruskal's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createWidget("Kruskal", 5, 5, { "class": "small", "weave": true, "padded": true, "watch": false });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 15, 15, { "class": "medium", "watch": false, "weave": true, "padded": true, id: "kruskal_bigger", interval: 25 });</script>
+  </div>
+  <hr />
 
   <h1>Prim's Algorithm</h1>
   <div class="row">
