@@ -164,7 +164,12 @@ Maze.createWidget = (algorithm, width, height, options) ->
     else
       value = options.input
 
-    @maze = new Maze(width, height, Maze.Algorithms[algorithm], seed: options.seed, rng: options.rng, input: value, weave: options.weave)
+    @maze = new Maze(width, height, Maze.Algorithms[algorithm], {
+      seed: options.seed,
+      rng: options.rng, input: value, weave: options.weave, weaveMode: options.weaveMode,
+      weaveDensity: options.weaveDensity
+    })
+
     @maze.element = this
     @maze.onUpdate(updateCallback)
     @maze.onEvent(eventCallback)

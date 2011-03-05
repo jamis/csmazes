@@ -58,9 +58,22 @@
   <hr />
 
   <h1>Kruskal's Algorithm</h1>
+  <p>
+    Weave mode: <select onchange="resetMazes('kruskal', 'kruskal_bigger');" id="kruskal_weave_mode"><option value="onePhase" selected>1-phase</option><option value="twoPhase">2-phase</option></select><br />
+    Weave density: <select onchange="resetMazes('kruskal', 'kruskal_bigger');" id="kruskal_weave_density"><option value="95" selected>95</option><option value="75">75</option><option value="50">50</option><option value="25">25</option><option value="10">10</option></select> <small>(only used for the 2-phase mode)</small>
+  </p>
+  <script type="text/javascript">
+    function kruskalWeaveMode() {
+      return document.getElementById("kruskal_weave_mode").value;
+    }
+
+    function kruskalWeaveDensity() {
+      return parseInt(document.getElementById("kruskal_weave_density").value);
+    }
+  </script>
   <div class="row">
-    <script type="text/javascript">Maze.createWidget("Kruskal", 5, 5, { "class": "small", "weave": true, "padded": true, "watch": false });</script>
-    <script type="text/javascript">Maze.createWidget("Kruskal", 15, 15, { "class": "medium", "watch": false, "weave": true, "padded": true, id: "kruskal_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 5, 5, { "class": "small", "weave": true, "weaveMode": kruskalWeaveMode, "weaveDensity": kruskalWeaveDensity, "padded": true, "watch": false });</script>
+    <script type="text/javascript">Maze.createWidget("Kruskal", 15, 15, { "class": "medium", "watch": false, "weave": true, "weaveMode": kruskalWeaveMode, "weaveDensity": kruskalWeaveDensity, "padded": true, id: "kruskal_bigger", interval: 25 });</script>
   </div>
   <hr />
 
