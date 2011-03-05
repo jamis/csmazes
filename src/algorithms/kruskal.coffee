@@ -31,7 +31,7 @@ class Maze.Algorithms.Kruskal extends Maze.Algorithm
     @weaveDensity = options.weaveDensity ? 80
     @weaveDensity = @weaveDensity() if typeof @weaveDensity == "function"
 
-    @state = if @weaveMode == "twoPhase" then @WEAVE else @JOIN
+    @state = if @maze.isWeave? && @weaveMode == "twoPhase" then @WEAVE else @JOIN
 
   connect: (x1, y1, x2, y2, direction) ->
     @sets[y1][x1].connect @sets[y2][x2]
@@ -105,7 +105,7 @@ class Maze.Algorithms.Kruskal extends Maze.Algorithm
       set1 = @sets[edge.y][edge.x]
       set2 = @sets[ny][nx]
 
-      if @maze.isWeave && @weaveMode == "onePhase" && @maze.isPerpendicular(nx, ny, edge.direction)
+      if @maze.isWeave? && @weaveMode == "onePhase" && @maze.isPerpendicular(nx, ny, edge.direction)
         nx2 = nx + Maze.Direction.dx[edge.direction]
         ny2 = ny + Maze.Direction.dy[edge.direction]
         set3 = null

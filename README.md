@@ -85,6 +85,11 @@ runs, or how the grid is displayed. These properties are supported:
 * **weave** : if true, generates a "weave" maze (where passages move over
   and under other passages). This is not supported by all algorithms. For
   best results, use with **padded** set to true.
+* **weaveMode** : either, "onePhase" (the default), or "twoPhase". Only
+  Kruskal's algorithm currently supports this setting.
+* **weaveDensity** : A number between 0 and 100 (default 80), with 100
+  meaning "maximum" density". Only used when **weaveMode** is set to
+  "twoPhase".
 
 Advanced Usage
 --------------
@@ -114,6 +119,8 @@ meaning as their counterparts in the widget helper):
 * **seed**
 * **rng**
 * **weave**
+* **weaveMode**
+* **weaveDensity**
 
 To indicate interest in the progress of the maze, you can use the onUpdate and
 onEvent methods to register callbacks that will be invoked. The onUpdate
