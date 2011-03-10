@@ -8,12 +8,12 @@ task 'build', 'Build lib/ from src/', ->
   coffee.stderr.on 'data', (data) -> print data.toString()
 
 task 'concat', 'Merge all generated Javascript files into a single file, maze-all.js', ->
-  priorities = "lib/mersenne.js": 1, "lib/maze.js": 2, "lib/widget.js": 3
+  priorities = "lib/mersenne.js": 1, "lib/maze.js": 2, "lib/widget.js": 3, "lib/algorithms/growing_binary_tree.js": 20
 
   sources = ("lib/#{entry}" for entry in fs.readdirSync("lib"))
   algorithms = ("lib/algorithms/#{entry}" for entry in fs.readdirSync("lib/algorithms"))
   sources = sources.concat(algorithms)
-  sources = sources.sort (a,b) -> (priorities[a] || 4) - (priorities[b] || 4)
+  sources = sources.sort (a,b) -> (priorities[a] || 10) - (priorities[b] || 10)
 
   output = fs.openSync("maze-all.js", "w")
   for source in sources
