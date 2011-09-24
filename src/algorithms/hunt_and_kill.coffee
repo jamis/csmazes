@@ -53,8 +53,8 @@ class Maze.Algorithms.HuntAndKill extends Maze.Algorithm
     @updateAt x, y # remove highlight from current cell
     @eventAt x, y
     @y = 0
-    @callbackRow 0 # highlight the first row
     @state = 2
+    @callbackRow 0 # highlight the first row
 
   huntStep: ->
     for x in [0...@maze.width]
