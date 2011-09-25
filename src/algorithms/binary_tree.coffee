@@ -9,6 +9,8 @@ http://github.com/jamis/csmazes
 class Maze.Algorithms.BinaryTree extends Maze.Algorithm
   IN: 0x1000
 
+  isCurrent: (x, y) -> @x is x and @y is y
+
   constructor: (maze, options) ->
     super
     @x = 0
@@ -46,12 +48,15 @@ class Maze.Algorithms.BinaryTree extends Maze.Algorithm
     else
       @maze.carve @x, @y, @IN
 
-    @updateAt @x, @y
+    [oldX, oldY] = [@x, @y]
 
     @x++
     if @x >= @maze.width
       @x = 0
       @y++
       @eventAt @x, @y
+
+    @updateAt oldX, oldY
+    @updateAt @x, @y
 
     return @y < @maze.height
