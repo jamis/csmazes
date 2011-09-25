@@ -9,6 +9,8 @@ http://github.com/jamis/csmazes
 class Maze.Algorithms.Sidewinder extends Maze.Algorithm
   IN: 0x1000
 
+  isCurrent: (x, y) -> @x is x and @y is y
+
   constructor: (maze, options) ->
     super
     @x = 0
@@ -16,12 +18,9 @@ class Maze.Algorithms.Sidewinder extends Maze.Algorithm
     @runStart = 0
     @state = 0
 
-  startStep: ->
-    @maze.carve @x, @y, @IN
-    @updateAt @x, @y
-    @state = 1
+  step: ->
+    return false if @y >= @maze.height
 
-  runStep: ->
     if @y > 0 && (@x+1 >= @maze.width || @rand.nextBoolean())
       cell = @runStart + @rand.nextInteger(@x - @runStart + 1)
       @maze.carve cell, @y, Maze.Direction.N
@@ -39,17 +38,15 @@ class Maze.Algorithms.Sidewinder extends Maze.Algorithm
       @maze.carve @x, @y, @IN
       @updateAt @x, @y
 
+    [oldX, oldY] = [@x, @y]
+
     @x++
     if @x >= @maze.width
       @x = 0
       @runStart = 0
       @y++
 
-  step: ->
-    return false if @y >= @maze.height
-
-    switch @state
-      when 0 then @startStep()
-      when 1 then @runStep()
+    @updateAt oldX, oldY
+    @updateAt @x, @y
 
     return @y < @maze.height

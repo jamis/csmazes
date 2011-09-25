@@ -28,28 +28,25 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
   isFinal: -> @row+1 == @maze.height
 
   isIn: (x, y) -> @maze.isValid(x, y) && @maze.isSet(x, y, @IN)
+  isCurrent: (x, y) -> @column is x and @row is y
 
   horizontalStep: ->
-    changed = false
+    if !@state.isSame(@column, @column+1) && (@isFinal() || @rand.nextBoolean())
+      @state.merge @column, @column+1
 
-    until changed || @column+1 >= @maze.width
-      changed = true
+      @maze.carve @column, @row, Maze.Direction.E
+      @updateAt @column, @row
 
-      if !@state.isSame(@column, @column+1) && (@isFinal() || @rand.nextBoolean())
-        @state.merge @column, @column+1
+      @maze.carve @column+1, @row, Maze.Direction.W
+      @updateAt @column+1, @row
+    else if @maze.isBlank(@column, @row)
+      @maze.carve @column, @row, @IN
+      @updateAt @column, @row
 
-        @maze.carve @column, @row, Maze.Direction.E
-        @updateAt @column, @row
+    @column += 1
 
-        @maze.carve @column+1, @row, Maze.Direction.W
-        @updateAt @column+1, @row
-      else if @maze.isBlank(@column, @row)
-        @maze.carve @column, @row, @IN
-        @updateAt @column, @row
-      else
-        changed = false
-
-      @column += 1
+    @updateAt @column-1, @row if @column > 0
+    @updateAt @column, @row
 
     if @column+1 >= @maze.width
       if @maze.isBlank(@column, @row)
@@ -58,6 +55,8 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
 
       if @isFinal()
         @pending = false
+        [oldColumn, @column] = [@column, null]
+        @updateAt oldColumn, @row # clear the "current" status
       else
         @mode = @VERTICAL
         @next_state = @state.next()
@@ -75,21 +74,26 @@ class Maze.Algorithms.Eller extends Maze.Algorithm
     verts.sort (a, b) -> a - b
 
   verticalStep: ->
-    cell = @verticals.pop()
-
-    @next_state.add cell, @state.setFor(cell)
-
-    @maze.carve cell, @row, Maze.Direction.S
-    @updateAt cell, @row
-
-    @maze.carve cell, @row+1, Maze.Direction.N
-    @updateAt cell, @row+1
-
     if @verticals.length == 0
       @state = @next_state.populate()
       @row += 1
+      oldColumn = @column
       @initializeRow()
       @eventAt 0, @row
+
+      @updateAt oldColumn, @row-1
+      @updateAt @column, @row
+    else
+      [oldColumn, @column] = [@column, @verticals.pop()]
+      @updateAt oldColumn, @row
+
+      @next_state.add @column, @state.setFor(@column)
+
+      @maze.carve @column, @row, Maze.Direction.S
+      @updateAt @column, @row
+
+      @maze.carve @column, @row+1, Maze.Direction.N
+      @updateAt @column, @row+1
 
   step: ->
     switch @mode
