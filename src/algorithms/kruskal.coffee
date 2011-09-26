@@ -94,6 +94,7 @@ class Maze.Algorithms.Kruskal extends Maze.Algorithm
 
         if @y >= @maze.height-1
           @state = @JOIN
+          @eventAt @x, @y
         
   joinStep: ->
     while @edges.length > 0
