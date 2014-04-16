@@ -120,7 +120,7 @@ class MersenneTwister
         kk++
 
       y = @unsigned32((@mt[@N-1] & @UPPER_MASK) | (@mt[0] & @LOWER_MASK))
-      @mt[@N-1] = @unsigned32(@mt[@M-1] ^ (y >>> 1) ^ mag01[y & 01])
+      @mt[@N-1] = @unsigned32(@mt[@M-1] ^ (y >>> 1) ^ mag01[y & 0x1])
       @mti = 0
 
     y = @mt[@mti++]
