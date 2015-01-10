@@ -1,0 +1,109 @@
+<html>
+<head>
+  <title>Weave Mazes</title>
+  <link rel="stylesheet" type="text/css" href="css/mazes.css" />
+
+  <script src="../lib/mersenne.js" type="text/javascript"></script>
+  <script src="../lib/maze.js" type="text/javascript"></script>
+  <script src="../lib/widget.js" type="text/javascript"></script>
+
+  <script src="../lib/algorithms/backtracker.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/growing_tree.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/hunt_and_kill.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/kruskal.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/prim.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    function resetMazes() {
+      for(var i = 0; i < arguments.length; i++) {
+        var id = arguments[i];
+        var element = document.getElementById(id);
+        element.mazeReset();
+      }
+    }
+  </script>
+
+  <style type="text/css">
+    * { font-family: sans-serif; }
+
+    h1 {
+      font-size: 24px;
+      margin: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 10px 20px;
+    }
+
+    small {
+      color: #777;
+      font-size: 11px;
+    }
+
+    input { width: 50%; }
+  </style>
+</head>
+<body>
+  <h1>Weave Mazes</h1>
+  <p>Weave mazes are mazes in which the passages pass over and under other passages. It's a form of 3D maze, but optimized for 2D rendering. A variety of different algorithms can be adapted to generate weave mazes; those in csMazes that can be used this way are shown below.</p>
+  <p>The source code for these demos is freely available at <a href="http://github.com/jamis/csmazes">http://github.com/jamis/csmazes</a>.
+  <hr /> 
+
+  <h1>Recursive Backtracking</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 5, 5, { "padded": true, "weave": true, "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 15, 15, { "class": "medium", "padded": true, "weave": true, id: "backtracker_bigger", interval: 25 });</script>
+  </div>
+  <hr />
+
+  <h1>Kruskal's Algorithm</h1>
+  <p>
+    Weave mode: <select onchange="resetMazes('kruskal', 'kruskal_bigger');" id="kruskal_weave_mode"><option value="onePhase" selected>1-phase</option><option value="twoPhase">2-phase</option></select><br />
+    Weave density: <select onchange="resetMazes('kruskal', 'kruskal_bigger');" id="kruskal_weave_density"><option value="95" selected>95</option><option value="75">75</option><option value="50">50</option><option value="25">25</option><option value="10">10</option></select> <small>(only used for the 2-phase mode)</small>
+  </p>
+  <script type="text/javascript">
+    function kruskalWeaveMode() {
+      return document.getElementById("kruskal_weave_mode").value;
+    }
+
+    function kruskalWeaveDensity() {
+      return parseInt(document.getElementById("kruskal_weave_density").value);
+    }
+  </script>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Kruskal", 5, 5, { "class": "small", "weave": true, "weaveMode": kruskalWeaveMode, "weaveDensity": kruskalWeaveDensity, "padded": true, "watch": false });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Kruskal", 15, 15, { "class": "medium", "watch": false, "weave": true, "weaveMode": kruskalWeaveMode, "weaveDensity": kruskalWeaveDensity, "padded": true, id: "kruskal_bigger", interval: 25 });</script>
+  </div>
+  <hr />
+
+  <h1>Prim's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Prim", 5, 5, { "class": "small", "weave": true, "padded": true, "watch": false });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Prim", 15, 15, { "class": "medium", "watch": false, "weave": true, "padded": true, id: "prim_bigger", interval: 25 });</script>
+  </div>
+  <hr />
+
+  <h1>"Hunt and Kill" Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("HuntAndKill", 5, 5, { "weave": true, "padded": true, "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("HuntAndKill", 15, 15, { "weave": true, "padded": true, "class": "medium", id: "huntkill_bigger", interval: 25 });</script>
+  </div>
+  <hr />
+
+  <h1>Growing Tree Algorithm</h1>
+  <p>
+    <input type="text" id="growing_tree_input" value="random:100" onchange="resetMazes('growingtree', 'growtree_bigger');" /><br />
+    <small>E.g. random:50, newest:30, oldest:75, middle:100, or any comma-delimited combination of those.</small>
+  </p>
+  <script type="text/javascript">
+    function growingTreeInput() {
+      return document.getElementById("growing_tree_input").value;
+    }
+  </script>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingTree", 5, 5, { "class": "small", "watch": false, "weave": true, "padded": true, input: growingTreeInput });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingTree", 15, 15, { "class": "medium", "watch": false, "weave": true, "padded": true, id: "growtree_bigger", interval: 25, input: growingTreeInput });</script>
+  </div>
+</body>
+</html>

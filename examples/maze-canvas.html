@@ -1,0 +1,194 @@
+<html>
+<head>
+  <title>Maze Algorithms</title>
+  <link rel="stylesheet" type="text/css" href="css/mazes.css" />
+
+  <script src="../lib/mersenne.js" type="text/javascript"></script>
+  <script src="../lib/maze.js" type="text/javascript"></script>
+  <script src="../lib/widget.js" type="text/javascript"></script>
+
+  <script src="../lib/algorithms/aldous_broder.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/backtracker.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/binary_tree.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/division.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/eller.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/growing_tree.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/growing_binary_tree.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/houston.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/hunt_and_kill.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/kruskal.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/prim.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/sidewinder.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/wilson.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    function resetMazes() {
+      for(var i = 0; i < arguments.length; i++) {
+        var id = arguments[i];
+        var element = document.getElementById(id);
+        element.mazeReset();
+      }
+    }
+  </script>
+
+  <style type="text/css">
+    * { font-family: sans-serif; }
+
+    h1 {
+      font-size: 24px;
+      margin: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 10px 20px;
+    }
+
+    small {
+      color: #777;
+      font-size: 11px;
+    }
+
+    input { width: 50%; }
+  </style>
+</head>
+<body>
+  <p>The source code for these demos is freely available at <a href="http://github.com/jamis/csmazes">http://github.com/jamis/csmazes</a>.
+  <hr /> 
+
+  <h1>Recursive Backtracking</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 15, 15, { "class": "medium", id: "backtracker_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 30, 30, { "class":"large", id: "backtracker_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Eller's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Eller", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Eller", 15, 15, { "class": "medium", id: "eller_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Eller", 30, 30, { "class": "large", id: "eller_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Kruskal's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Kruskal", 5, 5, { "class": "small", "watch": false });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Kruskal", 15, 15, { "class": "medium", "watch": false, id: "kruskal_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Kruskal", 30, 30, { "class": "large", "watch": false, id: "kruskal_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Prim's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Prim", 5, 5, { "class": "small", "watch": false });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Prim", 15, 15, { "class": "medium", "watch": false, id: "prim_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Prim", 30, 30, { "class": "large", "watch": false, id: "prim_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Recursive Division</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveDivision", 5, 5, { "class": "small", "watch": false, wallwise: true });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveDivision", 15, 15, { "class": "medium", "watch": false, wallwise: true, id: "division_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("RecursiveDivision", 30, 30, { "class": "large", "watch": false, wallwise: true, id: "division_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Aldous-Broder Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("AldousBroder", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("AldousBroder", 15, 15, { "class": "medium", id: "abroder_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("AldousBroder", 30, 30, { "class": "large", id: "abroder_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Wilson's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Wilson", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Wilson", 15, 15, { "class": "medium", id: "wilson_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Wilson", 30, 30, { "class": "large", id: "wilson_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Houston's Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Houston", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Houston", 15, 15, { "class": "medium", id: "houston_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Houston", 30, 30, { "class": "large", id: "houston_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>"Hunt and Kill" Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("HuntAndKill", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("HuntAndKill", 15, 15, { "class": "medium", id: "huntkill_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("HuntAndKill", 30, 30, { "class": "large", id: "huntkill_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Growing Tree Algorithm</h1>
+  <p>
+    <input type="text" id="growing_tree_input" value="random:100" onchange="resetMazes('growingtree', 'growtree_bigger', 'growtree_biggest');" /><br />
+    <small>E.g. random:50, newest:30, oldest:75, middle:100, or any comma-delimited combination of those.</small>
+  </p>
+  <script type="text/javascript">
+    function growingTreeInput() {
+      return document.getElementById("growing_tree_input").value;
+    }
+  </script>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingTree", 5, 5, { "class": "small", "watch": false, input: growingTreeInput });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingTree", 15, 15, { "class": "medium", "watch": false, id: "growtree_bigger", interval: 25, input: growingTreeInput });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingTree", 30, 30, { "class": "large", id: "growtree_biggest", interval: 10, "watch": false, input: growingTreeInput });</script>
+  </div>
+  <hr />
+
+  <h1>Growing Binary Tree Algorithm</h1>
+  <p>
+    <input type="text" id="growing_btree_input" value="random:100" onchange="resetMazes('growingbinarytree', 'growbtree_bigger', 'growbtree_biggest');" /><br />
+    <small>E.g. random:50, newest:30, oldest:75, middle:100, or any comma-delimited combination of those.</small>
+  </p>
+  <script type="text/javascript">
+    function growingBinaryTreeInput() {
+      return document.getElementById("growing_btree_input").value;
+    }
+  </script>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingBinaryTree", 5, 5, { "class": "small", "watch": false, input: growingBinaryTreeInput });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingBinaryTree", 15, 15, { "class": "medium", "watch": false, id: "growbtree_bigger", interval: 25, input: growingBinaryTreeInput });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("GrowingBinaryTree", 30, 30, { "class": "large", id: "growbtree_biggest", interval: 10, "watch": false, input: growingBinaryTreeInput });</script>
+  </div>
+  <hr />
+
+  <h1>Binary Tree Algorithm</h1>
+  <p>
+    Bias: <select id="binary_tree_input" onchange="resetMazes('binarytree', 'btree_bigger', 'btree_biggest');">
+      <option value="nw">Northwest</option>
+      <option value="ne">Northeast</option>
+      <option value="sw">Southwest</option>
+      <option value="se">Southeast</option>
+    </select>
+  </p>
+  <script type="text/javascript">
+    function binaryTreeInput() {
+      var s = document.getElementById('binary_tree_input');
+      return s.options[s.selectedIndex].value;
+    }
+  </script>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("BinaryTree", 5, 5, { "class": "small", input: binaryTreeInput });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("BinaryTree", 15, 15, { "class": "medium", input: binaryTreeInput, id: "btree_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("BinaryTree", 30, 30, { "class": "large", input: binaryTreeInput, id: "btree_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Sidewinder Algorithm</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("Sidewinder", 5, 5, { "class": "small" });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Sidewinder", 15, 15, { "class": "medium", id: "sidewinder_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("Sidewinder", 30, 30, { "class": "large", id: "sidewinder_biggest", interval: 10 });</script>
+  </div>
+</body>
+</html>
