@@ -61,8 +61,8 @@ class Maze.Algorithm
   onUpdate: (fn) -> @updateCallback = fn
   onEvent: (fn) -> @eventCallback = fn
 
-  updateAt: (x, y) -> @updateCallback(@maze, x, y)
-  eventAt: (x, y) -> @eventCallback(@maze, x, y)
+  updateAt: (x, y) -> @updateCallback(@maze, parseInt(x), parseInt(y))
+  eventAt: (x, y) -> @eventCallback(@maze, parseInt(x), parseInt(y))
 
   canWeave: (dir, thruX, thruY) ->
     if @maze.isWeave && @maze.isPerpendicular(thruX, thruY, dir)

@@ -268,6 +268,10 @@ Maze.createCanvasWidget = (algorithm, width, height, options) ->
       unless maze.isBlank(x, y)
         styles.in
 
+  drawLine = (ctx, x1, y1, x2, y2) ->
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+
   drawCell = (maze, x, y) ->
     px = x * maze.cellWidth
     py = y * maze.cellHeight
@@ -290,27 +294,19 @@ Maze.createCanvasWidget = (algorithm, width, height, options) ->
     # -> same as testing equality
 
     if maze.isWest(x, y) == options.wallwise?
-      maze.context.moveTo(wmpx, py)
-      maze.context.lineTo(wmpx, py+maze.cellHeight)
+      drawLine(maze.context, wmpx, py, wmpx, py+maze.cellHeight)
 
     if maze.isEast(x, y) == options.wallwise?
-      maze.context.moveTo(empx + maze.cellWidth, py)
-      maze.context.lineTo(empx + maze.cellWidth, py+maze.cellHeight)
+      drawLine(maze.context, empx + maze.cellWidth, py, empx + maze.cellWidth, py+maze.cellHeight)
 
     if maze.isNorth(x, y) == options.wallwise?
-      maze.context.moveTo(px, nmpy)
-      maze.context.lineTo(px+maze.cellWidth, nmpy)
+      drawLine(maze.context, px, nmpy, px+maze.cellWidth, nmpy)
 
     if maze.isSouth(x, y) == options.wallwise?
-      maze.context.moveTo(px, smpy + maze.cellHeight)
-      maze.context.lineTo(px+maze.cellWidth, smpy + maze.cellHeight)
+      drawLine(maze.context, px, smpy + maze.cellHeight, px+maze.cellWidth, smpy + maze.cellHeight)
 
     maze.context.closePath()
     maze.context.stroke()
-
-  drawLine = (ctx, x1, y1, x2, y2) ->
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x2, y2)
 
   drawCellPadded = (maze, x, y) ->
     px1 = x * maze.cellWidth
