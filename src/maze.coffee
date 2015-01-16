@@ -96,7 +96,7 @@ class Maze.Algorithm
     @updateAt fromX, fromY
     @updateAt thruX, thruY
     @updateAt toX, toY
-      
+
 Maze.Direction =
   N: 0x01
   S: 0x02

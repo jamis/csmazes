@@ -207,6 +207,8 @@ Maze.createCanvasWidget = (algorithm, width, height, options) ->
 
   styles.blank  ?= "#ccc"
   styles.f      ?= "#faa"
+  styles.a      ?= "#faa"
+  styles.b      ?= "#afa"
   styles.in     ?= "#fff"
   styles.cursor ?= "#7f7"
   styles.wall   ?= "#000"
@@ -263,6 +265,14 @@ Maze.createCanvasWidget = (algorithm, width, height, options) ->
           COLORS.Wilson(maze, x, y)
         else
           COLORS.AldousBroder(maze, x, y)
+
+    BlobbyDivision: (maze, x, y) ->
+      switch maze.algorithm.stateAt(x, y)
+        when "blank"  then styles.blank
+        when "in"     then styles.in
+        when "active" then styles.f
+        when "a"      then styles.a
+        when "b"      then styles.b
 
     default: (maze, x, y) ->
       unless maze.isBlank(x, y)
@@ -454,10 +464,19 @@ Maze.createCanvasWidget = (algorithm, width, height, options) ->
     else
       value = options.input
 
+    if typeof options.threshold == "function"
+      threshold = options.threshold()
+    else
+      threshold = options.threshold
+
+    growSpeed = Math.round(Math.sqrt(width * height))
+    wallSpeed = Math.round((if width < height then width else height) / 2)
+
     @maze = new Maze(width, height, Maze.Algorithms[algorithm], {
       seed: options.seed,
       rng: options.rng, input: value, weave: options.weave, weaveMode: options.weaveMode,
-      weaveDensity: options.weaveDensity
+      weaveDensity: options.weaveDensity, threshold: threshold,
+      growSpeed: growSpeed, wallSpeed: wallSpeed
     })
 
     canvas = document.getElementById("#{@id}_canvas")
