@@ -171,12 +171,12 @@ class Maze.Algorithms.BlobbyDivision extends Maze.Algorithm
     if @boundary.length == 0
       cell.state = "blank" for cell in @region.cells
 
-      if @subregions.a.cells.length >= @threshold
+      if @subregions.a.cells.length >= @threshold || (@subregions.a.cells.length > 4 && @rand.nextInteger() % 10 < 5)
         @stack.push @subregions.a
       else
         cell.state = "in" for cell in @subregions.a.cells
 
-      if @subregions.b.cells.length >= @threshold
+      if @subregions.b.cells.length >= @threshold || (@subregions.b.cells.length > 4 && @rand.nextInteger() % 10 < 5)
         @stack.push @subregions.b
       else
         cell.state = "in" for cell in @subregions.b.cells
