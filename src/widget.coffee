@@ -248,6 +248,13 @@ Maze.createCanvasWidget = (algorithm, width, height, options) ->
       else if not maze.isBlank(x, y)
         styles.in
 
+    ParallelBacktracker: (maze, x, y) ->
+      cell = maze.algorithm.cellAt(x, y)
+      if maze.algorithm.isStack(x, y)
+        styles.sets["stack-#{cell.set}"] ? styles.f
+      else if not maze.isBlank(x, y)
+        styles.sets[cell.set] ? "#fff"
+
     RecursiveDivision: (maze, x, y) ->
       # nothing to do here--no fill styles!
 

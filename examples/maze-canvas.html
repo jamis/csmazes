@@ -9,6 +9,7 @@
 
   <script src="../lib/algorithms/aldous_broder.js" type="text/javascript"></script>
   <script src="../lib/algorithms/backtracker.js" type="text/javascript"></script>
+  <script src="../lib/algorithms/parallel_backtracker.js" type="text/javascript"></script>
   <script src="../lib/algorithms/binary_tree.js" type="text/javascript"></script>
   <script src="../lib/algorithms/division.js" type="text/javascript"></script>
   <script src="../lib/algorithms/blobby_division.js" type="text/javascript"></script>
@@ -30,6 +31,24 @@
         element.mazeReset();
       }
     }
+
+    window.styleSets = {
+      "s0": "#fdd",
+      "s1": "#dfd",
+      "s2": "#ddf",
+      "s3": "#ffd",
+      "s4": "#fdf",
+      "s5": "#dff",
+      "s6": "#ddd",
+      "s7": "#fd9",
+      "stack-s0": "#f99",
+      "stack-s1": "#9f9",
+      "stack-s2": "#99f",
+      "stack-s3": "#ff9",
+      "stack-s4": "#f9f",
+      "stack-s5": "#9ff",
+      "stack-s6": "#999",
+      "stack-s7": "#f95" };
   </script>
 
   <style type="text/css">
@@ -55,13 +74,21 @@
 </head>
 <body>
   <p>The source code for these demos is freely available at <a href="http://github.com/jamis/csmazes">http://github.com/jamis/csmazes</a>.
-  <hr /> 
+  <hr />
 
   <h1>Recursive Backtracking</h1>
   <div class="row">
     <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 5, 5, { "class": "small" });</script>
     <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 15, 15, { "class": "medium", id: "backtracker_bigger", interval: 25 });</script>
     <script type="text/javascript">Maze.createCanvasWidget("RecursiveBacktracker", 30, 30, { "class":"large", id: "backtracker_biggest", interval: 10 });</script>
+  </div>
+  <hr />
+
+  <h1>Recursive Backtracking (Parallel Seeds)</h1>
+  <div class="row">
+    <script type="text/javascript">Maze.createCanvasWidget("ParallelBacktracker", 15, 15, { "class": "medium", "styles": { "sets": styleSets }, id: "paralleltracker_bigger", interval: 25 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("ParallelBacktracker", 30, 30, { "class":"large", "styles": { "sets": styleSets }, id: "paralleltracker_biggest", input: 5, interval: 10 });</script>
+    <script type="text/javascript">Maze.createCanvasWidget("ParallelBacktracker", 42, 42, { "class":"huge", "styles": { "sets": styleSets }, id: "paralleltracker_huge", input: 8, interval: 10 });</script>
   </div>
   <hr />
 
