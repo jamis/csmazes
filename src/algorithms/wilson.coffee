@@ -50,7 +50,12 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
 
       if @maze.isValid(nx, ny)
         [x, y, @x, @y] = [@x, @y, nx, ny]
-        @addVisit x, y, direction
+
+        if @isVisited(nx, ny)
+          @eraseLoopFrom(nx, ny)
+        else
+          @addVisit x, y, direction
+
         @updateAt x, y
         @updateAt nx, ny
 
@@ -103,3 +108,17 @@ class Maze.Algorithms.Wilson extends Maze.Algorithm
         when 3 then @runStep()
 
     return @remaining > 0
+
+  eraseLoopFrom: (x, y) ->
+    while true
+      dir = @exitTaken(x, y)
+      break unless dir
+
+      nx = x + Maze.Direction.dx[dir]
+      ny = y + Maze.Direction.dy[dir]
+
+      key = "#{x}:#{y}"
+      delete @visits[key]
+      @updateAt x, y
+
+      [x, y] = [nx, ny]
